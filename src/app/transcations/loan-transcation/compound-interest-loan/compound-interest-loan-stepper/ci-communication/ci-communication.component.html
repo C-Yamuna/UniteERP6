@@ -1,0 +1,142 @@
+<div class="col-12">
+    <form [formGroup]="communicationForm" id="exit_types_form">
+        <h6 class="sub-heading">{{'LOAN_TRANSACTION.COMMUNICATION' | translate}}<span class="admission-text">(Admission
+                number:&nbsp;{{admissionNumber}})</span></h6>
+        <div class="col-12 bg-label-colorfull p-0">
+            <div class="row g-3">
+                
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <h6 class="super-sub-heading">Registered</h6>
+                    <div class="col-12 global-border">
+                        <div class="col-12">
+                        <div class="row g-3 mt-n1">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.STATE' | translate}}</label>
+                                    <p-dropdown placeholder="{{'LOAN_TRANSACTION.SELECT' | translate}}" [options]="statesList"
+                                        formControlName="stateName" [(ngModel)]="ciLoanCommunicationModel.stateId"
+                                        (onChange)="getAllDistrictsByStateId(ciLoanCommunicationModel.stateId,true)"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.DISTRICT' | translate}}</label>
+                                    <p-dropdown placeholder="{{'LOAN_TRANSACTION.SELECT' | translate}}" [options]="districtsList"
+                                        formControlName="districtName"
+                                        [(ngModel)]="ciLoanCommunicationModel.districtId"
+                                        (onChange)='getAllSubDistrictByDistrictId(ciLoanCommunicationModel.districtId,true)'></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.SUB_DISTRICT' | translate}}</label>
+                                    <p-dropdown placeholder="{{'LOAN_TRANSACTION.SELECT' | translate}}" [options]="subDistrictList"
+                                        formControlName="subDistrictName"
+                                        [(ngModel)]="ciLoanCommunicationModel.subDistrictId"
+                                        (onChange)='getAllVillagesBySubDistrictId(ciLoanCommunicationModel.subDistrictId,true)'></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.VILLAGE' | translate}}</label>
+                                    <p-dropdown placeholder="{{'LOAN_TRANSACTION.SELECT' | translate}}" [options]="villageList"
+                                        formControlName="villageName" (onChange)='getVillage(ciLoanCommunicationModel.villageId)'
+                                        [(ngModel)]="ciLoanCommunicationModel.villageId"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.ADDRESS' | translate}}</label>
+                                    <textarea type="text" class="form-control" pInputTextarea formControlName="address1"
+                                    (keyup)="RegAddressToComAddress()" [(ngModel)]="ciLoanCommunicationModel.address1" placeholder="House No., Door No., Landmark..etc"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.PINCODE' | translate}}</label>
+                                    <input pInputText id="bunit_txt_name" type="text"
+                                        formControlName="pinCode" placeholder="Enter Your Pincode"
+                                        (keyup)="RegAddressToComAddress()" [(ngModel)]="ciLoanCommunicationModel.pinCode">
+                                    <p-message severity="error" text="Enter Valid Pin Code"
+                                        *ngIf="!communicationForm.controls['pinCode'].valid && communicationForm.controls['pinCode'].dirty"></p-message>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <div class="d-flex justify-content-between mt-xl-0 mt-lg-0 mt-4">
+                            <h6 class="super-sub-heading"><span class="red">*</span>{{'LOAN_TRANSACTION.PERMANENT' | translate}}</h6>
+                            <div class="grid mr-3 d-flex">
+                                <p-inputSwitch formControlName="isSameAddress"
+                                    [(ngModel)]="ciLoanCommunicationModel.isSameAddress"
+                                    (click)="sameAsPerAddr(ciLoanCommunicationModel.isSameAddress)"></p-inputSwitch>
+                                <p class="pl-1 m-0">{{'LOAN_TRANSACTION.SAME_AS_REGISTERED_ADDRESS' | translate}}</p>
+                            </div>
+                        </div>
+                    <div class="col-12 global-border">
+                        <div class="col-12">
+                        <div class="row g-3 mt-n1">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.STATE' | translate}}</label>
+                                    <p-dropdown placeholder="{{'LOAN_TRANSACTION.SELECT' | translate}}" [options]="permanentStatesList"
+                                        formControlName="permanentStateName"
+                                        [(ngModel)]="ciLoanCommunicationModel.permanentStateId"
+                                        (onChange)='getAllPermanentDistrictsByStateId(ciLoanCommunicationModel.permanentStateId,true)'></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.DISTRICT' | translate}}</label>
+                                    <p-dropdown placeholder="{{'LOAN_TRANSACTION.SELECT' | translate}}" [options]="permanentDistrictList"
+                                        formControlName="permanentDistrictName"
+                                        [(ngModel)]="ciLoanCommunicationModel.permanentDistrictId"
+                                        (onChange)='getAllPermanentSubDistrictByDistrictId(ciLoanCommunicationModel.permanentDistrictId,true)'></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.SUB_DISTRICT' | translate}}</label>
+                                    <p-dropdown placeholder="{{'LOAN_TRANSACTION.SELECT' | translate}}" [options]="permanentSubDistrictList"
+                                        formControlName="permanentSubDistrictName"
+                                        [(ngModel)]="ciLoanCommunicationModel.permanentSubDistrictId"
+                                        (onChange)='getAllPermanentVillagesBySubDistrictId(ciLoanCommunicationModel.permanentSubDistrictId,true)'></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.VILLAGE' | translate}}</label>
+                                <div>
+                                    <p-dropdown placeholder="{{'LOAN_TRANSACTION.SELECT' | translate}}" [options]="permanentVillageList"
+                                        formControlName="permanentVillageName" (onChange)='getPermanentVillage(ciLoanCommunicationModel.permanentVillageId)'
+                                        [(ngModel)]="ciLoanCommunicationModel.permanentVillageId"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.ADDRESS' | translate}}</label>
+                                    <textarea class="form-control" type="text" pInputTextarea formControlName="permanentAddress1"
+                                        [(ngModel)]="ciLoanCommunicationModel.permanentAddress1"
+                                        [disabled]="sameAsPermanentAddress" placeholder="House No., Door No., Landmark..etc"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-label">
+                                <label><span class="red">*</span>{{'LOAN_TRANSACTION.PINCODE' | translate}}</label>
+                                    <input pInputText id="bunit_txt_name" type="text"
+                                        formControlName="permanentPinCode" placeholder="Enter Your Pincode"
+                                        [(ngModel)]="ciLoanCommunicationModel.permanentPinCode">
+                                    <p-message severity="error" text="Enter Valid Pin Code"
+                                        *ngIf="!communicationForm.controls['permanentPinCode'].valid && communicationForm.controls['permanentPinCode'].dirty"></p-message>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>
+</div>

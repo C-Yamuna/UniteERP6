@@ -1,0 +1,125 @@
+<div class="col-12">
+    <h6 class="sub-heading">{{'ERP.GENEALOGY_TREE_DETAILS' | translate}}<span class="admission-text">(Admission
+            Number:&nbsp;{{admissionNumber}})</span></h6>
+    <div class="stepper-top-section-strip">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <span>{{'ERP.PRODUCT' | translate}}</span>
+                    <p class="mb-0">{{termLoanApplicationModel.termProductName}}</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <span>{{'ERP.OPERATION_TYPE' | translate}}</span>
+                    <p class="mb-0">{{termLoanApplicationModel.operationTypeName}}</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <span>{{'ERP.LOAN_ACCOUNT_NO' | translate}}</span>
+                    <p class="mb-0">{{termLoanApplicationModel.accountNumber}}</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <span>{{'ERP.REQUEST_AMOUNT' | translate}}</span>
+                    <p class="mb-0">{{termLoanApplicationModel.requestedAmount}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12"></div>
+    <form [formGroup]="termGenealogyTreeForm" id="proj_stakeholder_form">
+        <div class="flex justify-content-between py-2">
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                <!-- <div class="main-heading mt-1">{{'ERP.CASTE' | translate}}</div> -->
+            </div>
+            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                <div class="col-12 p-0">
+                    <div class="d-flex justify-content-end search-input-style">
+                        <div class="input-group search-box d-flex justify-content-end">
+                            <div class="search">
+                                <span class="p-input-icon-right">
+                                    <i class="pi pi-search global-search-icon"></i>
+                                    <input autocomplete="off" type="text" id="skill_category_txt_search" pInputText
+                                    placeholder="Search" class="searchbox"
+                                    #searchInput (input)="genealogy.filterGlobal(searchInput.value, 'contains')">
+                                </span>
+                            </div>
+                        </div>
+
+                        <p-button (click)="addService()" label="{{ 'ADD' | translate }}" icon="fa fa-plus"
+                            iconPos="left" [disabled]="addButtonService" id="bunit_bt_submit"></p-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="globel-border-top-color"></div>
+        <p-table #genealogy [columns]="genealogyTreeDetails" [value]="termLoanGenealogyTreeList" dataKey="id"
+            editMode="row" styleClass="p-datatable-striped" [rows]="5" [paginator]="true"
+            [showJumpToPageDropdown]="true" [showPageLinks]="false" [pageLinks]="1" [responsive]="true"
+            rowExpandMode="single">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th><span class="red">*</span>{{'ERP.RELATIONSHIP_WITH_MEMBER' | translate}}</th>
+                    <th><span class="red">*</span>{{'ERP.RELATION_NAME' | translate}}</th>
+                    <!-- <th>{{'ERP.REMARKS' | translate}}</th> -->
+                    <th class="width-15em">{{'ERP.ACTION' | translate}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="row">
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown placeholder="{{'ERP.SELECT'| translate}}"
+                                    formControlName="relationWithApplicant" [options]="relationshipTypesList"
+                                    id="relationWithApplicant" [(ngModel)]="row.relationWithApplicant"
+                                    [appendTo]="'body'">
+                                </p-dropdown>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{row.relationWithApplicantName}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="row.name" formControlName="name">
+                            </ng-template>
+                            <ng-template pTemplate="output">{{row.name}}</ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <!-- <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="row.remarks" formControlName="remarks">
+                            </ng-template>
+                            <ng-template pTemplate="output">{{row.remarks}}</ng-template>
+                        </p-cellEditor>
+                    </td> -->
+
+                    <td>
+                        <div class="global-action-btn flex align-items-center justify-content-center">
+                            <p-button label="{{'ERP.SAVE'|translate }}" *ngIf="editing"
+                                [disabled]="!termGenealogyTreeForm.valid" (click)="saveService(row)" pSaveEditableRow
+                                id="prj_stakehlder_bt_cancel" class="action-save">
+                            </p-button>
+                            <p-button label="{{'ERP.CANCEL'|translate }}" *ngIf="editing" pCancelEditableRow
+                                id="prj_stakehlder_bt_cancel" class="action-cancel" (click)="cancelService()">
+                            </p-button>
+                            <p-button label="{{'ERP.EDIT' | translate}}" *ngIf="!editing" pInitEditableRow
+                                (click)="editService(row)" id="prj_stakehlder_bt_edit" class="action-edit"
+                                [disabled]="editDeleteDisable"></p-button>
+                            <p-button label="{{'ERP.DELETE' | translate}}" *ngIf="!editing" (click)="delete(row)"
+                                id="prj_stakehlder_bt_edit" class="action-delete"
+                                [disabled]="editDeleteDisable"></p-button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </form>
+</div>

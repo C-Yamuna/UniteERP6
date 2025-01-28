@@ -1,0 +1,92 @@
+<div class="col-12">
+    <p-messages label="Info" life="4000" [(value)]="msgs"></p-messages>
+    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 py-2">
+        <div class="main-heading mt-1">{{'MEMBERSHIPCONFIG.PRODUCTS' | translate}}</div>
+    </div>
+    <div class="col-12 bg-card bg-label-colorfull px-1 pb-0">
+        <form [formGroup]="productsForm">
+            <div class="col-12">
+                <div class="col-12">
+                    <div class="row mt-n1">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-label">
+                                <label for="code">
+                                    <span class="red">*</span>{{'MEMBERSHIPCONFIG.PRODUCT' | translate}}
+                                </label>
+
+                                <p-dropdown [options]="productList" placeholder="Select"
+                                    formControlName="productId" [(ngModel)]="productsModel.productId"></p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-label">
+                                <label for="username">
+                                    <span class="red">*</span>{{'MEMBERSHIPCONFIG.SUB_PRODUCT' | translate}}
+                                </label>
+
+                                <input pInputText id="bunit_txt_name" maxlength="40" type="text" formControlName="name"
+                                    [(ngModel)]="productsModel.name">
+                                    <p-message severity="error" text="Enter Valid Name"
+                                    *ngIf="!productsForm.controls['name'].valid && productsForm.controls['name'].dirty">
+                                  </p-message>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-label">
+                                <label for="username">{{'MEMBERSHIPCONFIG.CODE' | translate}}
+                                </label>
+
+                                <input pInputText id="bunit_txt_name" maxlength="40" type="text" formControlName="code"
+                                    [(ngModel)]="productsModel.code">
+                                    <p-message severity="error" text="Enter Valid Code"
+                                    *ngIf="!productsForm.controls['code'].valid && productsForm.controls['code'].dirty">
+                                  </p-message>
+                            </div>
+                        </div>
+                        
+                      
+                       
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-label">
+                                <label for="username">{{'MEMBERSHIPCONFIG.NAME_IN_LOCAL_LANGUAGE' | translate}}
+                                </label>
+
+                                <input pInputText id="bunit_txt_name" maxlength="40" type="text" formControlName="nameInLocalLang"
+                                    [(ngModel)]="productsModel.nameInLocalLang">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 pt-4">
+                            <div class="form-label">
+                                <p-checkbox [binary]="true" inputId="binary" formControlName="isCustomization"
+                                    [(ngModel)]="productsModel.isCustomization"></p-checkbox>
+                                <span class="mt-2" for="username">&nbsp;&nbsp;{{'MEMBERSHIPCONFIG.IS_CUSTAMIZATION' | translate}}</span>
+                            </div>
+                        </div>
+                       
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-label">
+                                <label for="code">
+                                    <span class="red">*</span>{{'MEMBERSHIPCONFIG.STATUS' | translate}}
+                                </label>
+
+                                <p-dropdown [options]="statusList" formControlName="statusName"
+                                    [(ngModel)]="productsModel.status" placeholder="Select"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="col-12 d-flex justify-content-end">
+    <p-button label="{{'MEMBERSHIPCONFIG.BACK' | translate}}" (click)="navigateToBack()"></p-button>
+    <p-button label="{{'MEMBERSHIPCONFIG.SUBMIT' | translate}}" [disabled]="!productsForm.valid" *ngIf='!isEdit'
+        (click)="addOrUpdate()"> </p-button>
+    <p-button label="{{'MEMBERSHIPCONFIG.SUBMIT' | translate}}" [disabled]="!productsForm.valid" *ngIf='isEdit'
+        (click)="addOrUpdate()"> </p-button>
+</div>

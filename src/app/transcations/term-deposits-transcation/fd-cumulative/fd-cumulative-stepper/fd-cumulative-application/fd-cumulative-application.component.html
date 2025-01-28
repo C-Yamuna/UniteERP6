@@ -1,0 +1,165 @@
+<div class="col-12">
+    <div class="row">
+        <div class="col-6">
+            <h6 class="sub-heading">{{'ERP.APPLICATION_DETAILS' | translate}}</h6>
+        </div>
+
+        <div class="col-6 text-end">
+            <a (click)="onChangeProduct(fdCumulativeApplicationModel.fdCummulativeProductId)" class="text-end cursor-pointer">View
+                Product Details</a>
+        </div>
+    </div>
+    <p-messages label="Info" life="3000" [(value)]="msgs" [showTransitionOptions]="'500ms'"
+        [hideTransitionOptions]="'500ms'">
+    </p-messages>
+    <form [formGroup]="applicationForm">
+        <div class="mt-n1  bg-label-colorfull">
+            <div class="row g-3">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code"><span class="red">*</span>
+                            {{'TERMDEPOSITSTRANSACTION.PRODUCT_TYPE' | translate}}
+                        </label>
+                        <p-dropdown placeholder="Select" [options]="productsList" formControlName="fdCummulativeProductId"
+                            [(ngModel)]="fdCumulativeApplicationModel.fdCummulativeProductId" [disabled]="isProductDisable"
+                            (onChange)="getfdnonProductDefinitionByProductIdAndDepositDate(fdCumulativeApplicationModel.fdCummulativeProductId)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'TERMDEPOSITSTRANSACTION.ACCOUNT_NUMBER' | translate}}
+                        </label>
+
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="accountNumber"
+                            [(ngModel)]="fdCumulativeApplicationModel.accountNumber" placeholder="Enter Loan Account Number">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            {{'TERMDEPOSITSTRANSACTION.DEPOSIT_DATE' | translate}}
+                        </label>
+                        <p-calendar formControlName="depositDate" [showIcon]="true"
+                            [dateFormat]="orgnizationSetting.calendar" placeholder="DD/MM/YYYY"
+                            [(ngModel)]="fdCumulativeApplicationModel.depositDateVal"
+                            (onSelect)="onSelectdepositDate()">
+                        </p-calendar>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                    <label><span class="red">*</span>{{'TERMDEPOSITSTRANSACTION.ACCOUNT_TYPE' | translate}}</label>
+                        <p-dropdown [options]="accountList" placeholder="{{'ERP.SELECT' | translate}}"
+                            formControlName="accountType" [disabled]="applicationType" (onChange)="onChangeAccountType($event)"
+                            [(ngModel)]="fdCumulativeApplicationModel.accountType">
+                        </p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'TERMDEPOSITSTRANSACTION.ROI' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="roi"
+                            [(ngModel)]="interestPolicyModel.roi" placeholder="Enter ROI">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'TERMDEPOSITSTRANSACTION.PENAL_ROI' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="penalRoi"
+                            [(ngModel)]="interestPolicyModel.penaltyRoi" placeholder="Enter Penal ROI">
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label>{{'TERMDEPOSITSTRANSACTION.DEPOSIT_AMOUNT' | translate}}</label>
+                            <input pInputText id="state_txt_name" type="text" formControlName="depositAmount"
+                                [(ngModel)]=" fdCumulativeApplicationModel.depositAmount" placeholder="Enter Amount">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label>{{'TERMDEPOSITSTRANSACTION.TENURE_IN_DAYS' | translate}}</label>
+                            <input pInputText id="state_txt_name" type="text" formControlName="tenureInDays"
+                                [(ngModel)]=" fdCumulativeApplicationModel.tenureInDays" placeholder="Enter Tenure (In Days)">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label>{{'TERMDEPOSITSTRANSACTION.TENURE_IN_MONTHS' | translate}}</label>
+                            <input pInputText id="state_txt_name" type="text" formControlName="tenureInMonths"
+                                [(ngModel)]=" fdCumulativeApplicationModel.tenureInMonths" placeholder="Enter Tenure (In Months)">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label>{{'TERMDEPOSITSTRANSACTION.TENURE_IN_YEARS' | translate}}</label>
+                            <input pInputText id="state_txt_name" type="text" formControlName="tenureInYears"
+                                [(ngModel)]=" fdCumulativeApplicationModel.tenureInYears" placeholder="Enter Tenure (In Years)">
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </form>
+</div>
+<p-dialog header="Product Details" [(visible)]="displayDialog" styleClass="moredetails-style">
+    <div class="popup-basic-details">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'TERMDEPOSITSTRANSACTION.PRODUCT_NAME' | translate}}</span>
+                    <p class="label-input-text">{{productDefinitionModel.name}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'TERMDEPOSITSTRANSACTION.IS_SPECIAL_SCHEME' | translate}}</span>
+                    <p class="label-input-text">{{productDefinitionModel.isSpecialScheme}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'TERMDEPOSITSTRANSACTION.MIN_DEPOSIT_AMOUNT' | translate}} </span>
+                    <p class="label-input-text">{{productDefinitionModel.minDepositAmount}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'TERMDEPOSITSTRANSACTION.MAX_DEPOSIT_AMOUNT' | translate}}</span>
+                    <p class="label-input-text">{{productDefinitionModel.maxDepositAmount}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'TERMDEPOSITSTRANSACTION.MIN_TENURE' | translate}}</span>
+                    <p class="label-input-text">{{productDefinitionModel.minTenure}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'TERMDEPOSITSTRANSACTION.MAX_TENURE' | translate}}</span>
+                    <p class="label-input-text">{{productDefinitionModel.maxTenure}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'TERMDEPOSITSTRANSACTION.AUTO_RENEWAL' | translate}}</span>
+                    <p class="label-input-text">{{productDefinitionModel.isAutoRenewal}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'TERMDEPOSITSTRANSACTION.EFFECTIVE_START_DATE' | translate}}</span>
+                    <p class="label-input-text">{{productDefinitionModel.effectiveStartDateVal}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

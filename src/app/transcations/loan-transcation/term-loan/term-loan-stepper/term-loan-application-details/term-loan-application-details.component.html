@@ -1,0 +1,277 @@
+<div class="col-12">
+    <div class="row">
+        <div class="col-6">    
+            <h6 class="sub-heading">{{'ERP.APPLICATION_DETAILS' | translate}}</h6>
+        </div>
+
+        <div class="col-6 text-end">
+            <a (click)="onChangeProduct(termLoanApplicationModel.termProductId)" class="text-end cursor-pointer">View Product Details</a>
+        </div>
+    </div>
+    <p-messages label="Info" life="3000" [(value)]="msgs" [showTransitionOptions]="'500ms'"
+        [hideTransitionOptions]="'500ms'">
+    </p-messages>
+    <form [formGroup]="termLoanapplicationForm">
+        <div class="mt-n1  bg-label-colorfull">
+            <div class="row g-3">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            {{'ERP.PRODUCT' | translate}}
+                        </label>
+                        <p-dropdown placeholder="Select" [options]="productsList" formControlName="termProductId"
+                            [(ngModel)]="termLoanApplicationModel.termProductId" [disabled]="isProductDisable"
+                            (onChange)="getProductDefinitionByProductIdAndApplicationDate($event.value)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.LOAN_ACCOUNT_NUMBER' | translate}}
+                        </label>
+
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="accountNumber"
+                            [(ngModel)]="termLoanApplicationModel.accountNumber" placeholder="Enter Loan Account Number">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            {{'ERP.APPLICATION_DATE' | translate}}
+                        </label>
+                        <p-calendar formControlName="applicationDate" [showIcon]="true"
+                            [dateFormat]="orgnizationSetting.calendar" placeholder="DD/MM/YYYY"
+                            [(ngModel)]="termLoanApplicationModel.applicationDateVal">
+                        </p-calendar>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12" >
+                    <div class="form-label">
+                        <label for="code">
+                            {{'ERP.OPERATION_TYPE' | translate}}
+                        </label>
+                        <p-dropdown [options]="operationTypesList" placeholder="Select"
+                            formControlName="operationTypeId" [(ngModel)]="termLoanApplicationModel.operationTypeId"
+                            [disabled]="applicationType" (onChange)="onChangeAccountType($event)"></p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.ROI' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="roi"
+                            [(ngModel)]="termLoanInterestPolicyModel.roi" placeholder="Enter ROI">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.PENAL_ROI' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="penalRoi"
+                            [(ngModel)]="termLoanInterestPolicyModel.penalInterest" placeholder="Enter Penal ROI">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.IOD' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="iod"
+                            [(ngModel)]="termLoanInterestPolicyModel.iod" placeholder="Enter IOD">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.REPAYMENT_FREQUENCY' | translate}}
+                        </label>
+                        <p-dropdown placeholder="Select" [options]="repaymentFrequencyList"
+                            formControlName="repaymentFrequency" (onChange)="onChangeRepayment($event)"
+                            [(ngModel)]="termLoanApplicationModel.repaymentFrequency">
+                        </p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.INCOME_PER_MONTH' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="monthlyIncome"
+                            [(ngModel)]="termLoanApplicationModel.monthlyIncome" placeholder="Enter Amount">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            {{'ERP.LOAN_PURPOSE' | translate}}
+                        </label>
+                        <p-dropdown placeholder="Select" [options]="loanPurposeList" formControlName="purposeId"
+                            (onChange)="onChangePurpose($event)" [(ngModel)]="termLoanApplicationModel.purposeId">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.REQUEST_AMOUNT' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="requestedAmount"
+                            [(ngModel)]="termLoanApplicationModel.requestedAmount" placeholder="Enter Amount">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.SANCTION_AMOUNT' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="sanctionAmount"
+                            [(ngModel)]="termLoanApplicationModel.sanctionAmount" placeholder="Enter Amount">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            {{'ERP.SANCTION_DATE' | translate}}
+                        </label>
+                        <p-calendar formControlName="sanctionDate" [showIcon]="true"
+                            [dateFormat]="orgnizationSetting.calendar"
+                            [(ngModel)]="termLoanApplicationModel.sanctionDateVal" placeholder="DD/MM/YYYY">
+                        </p-calendar>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'LOANS.NO_OF_PLANNED_DISBURSEMENTS' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="plannedDisbursements"
+                            [(ngModel)]="termLoanApplicationModel.plannedDisbursements"
+                            placeholder="Enter No of Planned Disbursements">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'LOANS.LOAN_PERIOD_IN_MONTHS' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="loanPeriod"
+                            [(ngModel)]="termLoanApplicationModel.loanPeriod" placeholder="Enter Loan Period in Months">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            {{'LOANS.LOAN_DUE_DATE' | translate}}
+                        </label>
+                        <p-calendar formControlName="loanDueDate" [showIcon]="true"
+                            [dateFormat]="orgnizationSetting.calendar"
+                            [(ngModel)]="termLoanApplicationModel.loanDueDateVal" placeholder="DD/MM/YYYY">
+                        </p-calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="col-12 mt-3">
+    <h6 class="sub-heading">{{'ERP.INSURANCE_DETAILS' | translate}}</h6>
+    <form [formGroup]="insurenceDetailsForm">
+        <div class="mt-n1  bg-label-colorfull">
+            <div class="row g-3">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            {{'ERP.INSURENCE_COMPANY' | translate}}
+                        </label>
+                        <p-dropdown placeholder="{{'ERP.SELECT' | translate}}" [options]="insuranceVendorDetailsList"
+                            formControlName="vendorId" [(ngModel)]="termLoanInsuranceDetailsModel.vendorId">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.POLICY_NAME' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="policyName"
+                            [(ngModel)]="termLoanInsuranceDetailsModel.policyName" placeholder="Enter Policy Name">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.POLICY_NUMBER' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="policyNumber"
+                            [(ngModel)]="termLoanInsuranceDetailsModel.policyNumber" placeholder="Enter Policy Number">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.SUM_INSURED' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="sumInsured"
+                            [(ngModel)]="termLoanInsuranceDetailsModel.sumInsured" placeholder="Enter Sum Insured">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.PREMIUM' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="premium"
+                            [(ngModel)]="termLoanInsuranceDetailsModel.premium" placeholder="Enter Premium">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-dialog header="Product Details" [(visible)]="displayDialog" styleClass="moredetails-style">
+    <div class="popup-basic-details">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.PRODUCT_NAME' | translate}}</span>
+                    <p class="label-input-text">{{termLoanProductDefinitionModel.name}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.INTEREST_CALCULATION_TYPE' | translate}}</span>
+                    <p class="label-input-text">{{termLoanProductDefinitionModel.interestCalculationTypeName}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.MIN_LOAN_PERIOD' | translate}} </span>
+                    <p class="label-input-text">{{termLoanProductDefinitionModel.minLoanPeriod}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.MAX_LOAN_PERIOD' | translate}}</span>
+                    <p class="label-input-text">{{termLoanProductDefinitionModel.maxLoanPeriod}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.MAX_LOAN_ACCOUNTS_ALLOWED' | translate}}</span>
+                    <p class="label-input-text">{{termLoanProductDefinitionModel.maxLoanAccountsAllowed}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.NO_OF_GUARANTORS_REQUIRED' | translate}}</span>
+                    <p class="label-input-text">{{termLoanProductDefinitionModel.noOfGuarantorsRequired}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.MIN_DAYS_FOR_RENEWAL' | translate}}</span>
+                    <p class="label-input-text">{{termLoanProductDefinitionModel.minDaysForRenewel}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.IS_NPA_EXCEPTIONAL' | translate}}</span>
+                    <p class="label-input-text">{{termLoanProductDefinitionModel.isNpaExceptional}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

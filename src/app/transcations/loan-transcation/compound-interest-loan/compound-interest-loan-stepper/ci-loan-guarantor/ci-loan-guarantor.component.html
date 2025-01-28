@@ -1,0 +1,122 @@
+<div class="col-12">
+    <h6 class="sub-heading">{{'LOAN_TRANSACTION.GUARANTOR_DETAILS' | translate}}</h6>
+    <div class="stepper-top-section-strip">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <span>{{'LOAN_TRANSACTION.PRODUCT_NAME' | translate}}</span>
+                    <p class="mb-0">{{ciLoanApplicationModel.ciProductName}}</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <span>{{'LOAN_TRANSACTION.ACCOUNT_TYPE' | translate}}</span>
+                    <p class="mb-0">{{ciLoanApplicationModel.operationTypeName}}</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <span>{{'LOAN_TRANSACTION.ACCOUNT_NUMBER' | translate}}</span>
+                    <p class="mb-0">{{ciLoanApplicationModel.accountNumber}}</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <span>{{'LOAN_TRANSACTION.REQUEST_AMOUNT' | translate}}</span>
+                    <p class="mb-0">{{ciLoanApplicationModel.requestedAmount}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12"></div>
+    <form [formGroup]="guarantorForm" id="exit_types_form">
+        <div class="mt-n1 bg-label-colorfull">
+            <div class="row g-3">
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <label>{{'LOAN_TRANSACTION.ADMINSSION_NUMBER' | translate}}</label>
+                    <p-multiSelect [options]="admissionNumberList" formControlName="admissionNumber" [(ngModel)]="selectedAdmissionNumberList"
+                        placeholder="Select" optionLabel="label" [showClear]="true"
+                        (onChange)="onSelectionChange($event)" (onClear)="onClear($event)" />
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <label>{{'LOAN_TRANSACTION.NO_OF_JOINT_HOLDERS' | translate}}</label>
+                    <input formControlName="noOfJointHolders" type="text" pInputText [(ngModel)]="numberOfJointHolders" placeholder="Enter No of Joint Holders" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mb-2"></div>
+
+        <h6 class="sub-heading">{{'LOAN_TRANSACTION.GUARANTORS' | translate}} </h6>
+        <div class="col-12 p-3 mem-details-stripbox">
+        <div class="col-auto rounded bg-white mb-2" *ngFor="let guarantorDetails of ciGuarantorDetailsList">
+                <div class="d-flex">
+                    <div class="col">
+                            <img class="mem-details-stripimage" src="assets/images/avata2r-table.png" alt="secondaryholder-image" />
+                    </div>
+                    <div class="col"></div>
+
+                    <div class="w-100 mt-1 mb-2 h-90p">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span>{{'LOAN_TRANSACTION.ADMISSION_NO' | translate}}</span>
+                                    <p class="font-semibold text-break">{{guarantorDetails.admissionNumber}}</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span class="label-view">{{'LOAN_TRANSACTION.NAME' | translate}}</span>
+                                    <p class="label-input-text text-break m-0">{{guarantorDetails.name}}</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span class="label-view">{{'LOAN_TRANSACTION.AGE' | translate}}</span>
+                                    <p class="label-input-text text-break m-0">{{guarantorDetails.age}}</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span class="label-view">{{'LOAN_TRANSACTION.MOBILE_NUMBER' | translate}}</span>
+                                    <p class="label-input-text text-break m-0">{{guarantorDetails.mobileNumber}}</p>
+                                </div>
+                            </div>
+                            <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span class="label-view">{{'LOAN_TRANSACTION.MEMBER_TYPE' | translate}}</span>
+                                    <p class="label-input-text text-break m-0">{{guarantorDetails.memberTypeName}}</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span class="label-view">{{'LOAN_TRANSACTION.ADMISSION_DATE' | translate}}</span>
+                                    <p class="label-input-text text-break m-0">{{guarantorDetails.admissionDateVal}}</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span class="label-view">{{'LOAN_TRANSACTION.AADHAR_NUMBER' | translate}}</span>
+                                    <p class="label-input-text text-break m-0">{{guarantorDetails.aadharNumber}}</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span class="label-view">{{'LOAN_TRANSACTION.PAN_NUMBER' | translate}}</span>
+                                    <p class="label-input-text text-break m-0">{{guarantorDetails.panNumber}}</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 min-h-50px">
+                                <div class="col">
+                                    <span class="label-view">{{'LOAN_TRANSACTION.EMAIL' | translate}}</span>
+                                    <p class="label-input-text text-break m-0">{{guarantorDetails.emailId}}</p>
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

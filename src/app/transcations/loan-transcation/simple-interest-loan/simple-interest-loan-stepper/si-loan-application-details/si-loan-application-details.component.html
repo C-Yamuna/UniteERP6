@@ -1,0 +1,461 @@
+<div class="col-12">
+    <div class="row">
+        <div class="col-6">
+            <h6 class="sub-heading">{{'ERP.APPLICATION_DETAILS' | translate}}</h6>
+        </div>
+
+        <div class="col-6 text-end">
+            <a (click)="onChangeProduct(siLoanApplicationModel.siProductId)" class="text-end cursor-pointer">View
+                Product Details</a>
+        </div>
+    </div>
+    <p-messages label="Info" life="3000" [(value)]="msgs" [showTransitionOptions]="'500ms'"
+        [hideTransitionOptions]="'500ms'">
+    </p-messages>
+    <form [formGroup]="siLoanapplicationForm">
+        <div class="mt-n1  bg-label-colorfull">
+            <div class="row g-3">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            <span class="red">*</span>{{'ERP.PRODUCT' | translate}}
+                        </label>
+                        <p-dropdown placeholder="Select" [options]="productsList" formControlName="siProductId"
+                            [(ngModel)]="siLoanApplicationModel.siProductId" [disabled]="isProductDisable"
+                            (onChange)="getProductDefinitionByProductIdAndApplicationDate(siLoanApplicationModel.siProductId)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.LOAN_ACCOUNT_NUMBER' | translate}}
+                        </label>
+
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="accountNumber"
+                            [(ngModel)]="siLoanApplicationModel.accountNumber" placeholder="Enter Loan Account Number">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            <span class="red">*</span>{{'ERP.APPLICATION_DATE' | translate}}
+                        </label>
+                        <p-calendar formControlName="applicationDate" [showIcon]="true"
+                            [dateFormat]="orgnizationSetting.calendar" placeholder="DD/MM/YYYY"
+                            [(ngModel)]="siLoanApplicationModel.applicationDateVal"
+                            (onSelect)="onSelectApplicationDate()">
+                        </p-calendar>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.APPLICATION_NUMBER' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="applicationNumber"
+                            [(ngModel)]="siLoanApplicationModel.applicationNumber"
+                            placeholder="Enter Loan Application Number">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12" *ngIf="isIndividual">
+                    <div class="form-label">
+                        <label for="code">
+                            <span class="red">*</span>{{'ERP.OPERATION_TYPE' | translate}}
+                        </label>
+                        <p-dropdown [options]="operationTypesList" placeholder="Select"
+                            formControlName="operationTypeId" [(ngModel)]="siLoanApplicationModel.operationTypeId"
+                            [disabled]="applicationType" (onChange)="onChangeAccountType($event)"></p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.ROI' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="roi"
+                            [(ngModel)]="siLoanInterestPolicyModel.roi" placeholder="Enter ROI">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.PENAL_ROI' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="penalRoi"
+                            [(ngModel)]="siLoanInterestPolicyModel.penalInterest" placeholder="Enter Penal ROI">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.IOD' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="iod"
+                            [(ngModel)]="siLoanInterestPolicyModel.iod" placeholder="Enter IOD">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.REPAYMENT_FREQUENCY' | translate}}
+                        </label>
+                        <p-dropdown placeholder="Select" [options]="repaymentFrequencyList"
+                            formControlName="repaymentFrequency" (onChange)="onChangeRepayment($event)"
+                            [(ngModel)]="siLoanApplicationModel.repaymentFrequency">
+                        </p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.INCOME_PER_MONTH' | translate}}
+                        </label>
+                        <p-inputNumber id="bunit_txt_name" formControlName="monthlyIncome"
+                            [(ngModel)]="siLoanApplicationModel.monthlyIncome" mode="currency" inputId="currency-india"
+                            currency="INR" locale="en-IN">
+                        </p-inputNumber>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            <span class="red">*</span>{{'ERP.LOAN_PURPOSE' | translate}}
+                        </label>
+                        <p-dropdown placeholder="Select" [options]="loanPurposeList" formControlName="purposeId"
+                            (onChange)="onChangePurpose($event)" [(ngModel)]="siLoanApplicationModel.purposeId">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.REQUEST_AMOUNT' | translate}}
+                        </label>
+                        <p-inputNumber id="bunit_txt_name" formControlName="requestedAmount"
+                            [(ngModel)]="siLoanApplicationModel.requestedAmount" mode="currency"
+                            inputId="currency-india" currency="INR" locale="en-IN">
+                        </p-inputNumber>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'ERP.SANCTION_AMOUNT' | translate}}
+                        </label>
+                        <p-inputNumber id="bunit_txt_name" formControlName="sanctionAmount"
+                            [(ngModel)]="siLoanApplicationModel.sanctionAmount" mode="currency" inputId="currency-india"
+                            currency="INR" locale="en-IN">
+                        </p-inputNumber>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            <span class="red">*</span>{{'ERP.SANCTION_DATE' | translate}}
+                        </label>
+                        <p-calendar formControlName="sanctionDate" [showIcon]="true"
+                            [dateFormat]="orgnizationSetting.calendar"
+                            [(ngModel)]="siLoanApplicationModel.sanctionDateVal" placeholder="DD/MM/YYYY"
+                            (onSelect)="onSelectSanctionDate()">
+                        </p-calendar>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'LOANS.PLANNED_DISBURSEMENTS' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="plannedDisbursements"
+                            [(ngModel)]="siLoanApplicationModel.plannedDisbursements"
+                            placeholder="Enter No of Planned Disbursements" (keyup)="checkPlannedDisbursement()"
+                            > <!-- Condition to disable input -->
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">
+                            <span class="red">*</span>{{'LOANS.LOAN_PERIOD_IN_MONTHS' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="loanPeriod"
+                            [(ngModel)]="siLoanApplicationModel.loanPeriod" placeholder="Enter Loan Period in Months">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            <span class="red">*</span>{{'LOANS.LOAN_DUE_DATE' | translate}}
+                        </label>
+                        <p-calendar formControlName="loanDueDate" [showIcon]="true"
+                            [dateFormat]="orgnizationSetting.calendar"
+                            [(ngModel)]="siLoanApplicationModel.loanDueDateVal" (onSelect)="onSelectLoanDueDate()"
+                            placeholder="DD/MM/YYYY">
+                        </p-calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="col-12 mt-3"
+    *ngIf="siLoanProductDefinitionModel.isInsuranceAppicable != undefined && siLoanProductDefinitionModel.isInsuranceAppicable">
+    <h6 class="sub-heading">{{'ERP.INSURANCE_DETAILS' | translate}}</h6>
+    <form [formGroup]="insurenceDetailsForm">
+        <div class="mt-n1  bg-label-colorfull">
+            <div class="row g-3">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="code">
+                            {{'ERP.INSURENCE_COMPANY' | translate}}
+                        </label>
+                        <p-dropdown placeholder="{{'ERP.SELECT' | translate}}" [options]="insuranceVendorDetailsList"
+                            formControlName="vendorId" [(ngModel)]="siLoanInsuranceDetailsModel.vendorId">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.POLICY_NAME' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="policyName"
+                            [(ngModel)]="siLoanInsuranceDetailsModel.policyName" placeholder="Enter Policy Name">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.POLICY_NUMBER' | translate}}
+                        </label>
+                        <input pInputText id="bunit_txt_name" type="text" formControlName="policyNumber"
+                            [(ngModel)]="siLoanInsuranceDetailsModel.policyNumber" placeholder="Enter Policy Number">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.SUM_INSURED' | translate}}
+                        </label>
+                        <p-inputNumber id="bunit_txt_name" formControlName="sumInsured"
+                            [(ngModel)]="siLoanInsuranceDetailsModel.sumInsured" mode="currency"
+                            inputId="currency-india" currency="INR" locale="en-IN">
+                        </p-inputNumber>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-label">
+                        <label for="username">{{'ERP.PREMIUM' | translate}}
+                        </label>
+                        <p-inputNumber id="bunit_txt_name" formControlName="premium"
+                            [(ngModel)]="siLoanInsuranceDetailsModel.premium" mode="currency" inputId="currency-india"
+                            currency="INR" locale="en-IN">
+                        </p-inputNumber>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="col-12 mt-3">
+    <h6 class="sub-heading">{{'ERP.DISBURSEMENT_CONFIGURATION' | translate}}</h6>
+
+    <div class="col-12 p-0">
+        <form [formGroup]="disbursementForm" id="proj_stakeholder_form">
+            <div class="flex justify-content-between">
+                <div class="xl:col-5 lg:col-5 md:col-12 sm:col-12 pl-0">
+                </div>
+                <div class="xl:col-7 lg:col-7 md:col-12 sm:col-12 pr-0">
+                    <div class="col-12 p-0">
+                        <div class="d-flex justify-content-end search-input-style">
+                            <div class="input-group search-box d-flex justify-content-end">
+                                <div class="search">
+                                    <span class="p-input-icon-right">
+                                        <i class="pi pi-search global-search-icon"></i>
+                                        <input type="text" pInputText class="searchbox" placeholder="Search" />
+                                    </span>
+                                </div>
+                            </div>
+                            <p-button (click)="addSILoanDisbursementSchedule()" label="{{ 'ADD' | translate }}"
+                                icon="fa fa-plus" iconPos="left" [disabled]="disableAddButton"
+                                id="bunit_bt_submit"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="globel-border-top-color"></div>
+
+            <p-table #disbursement [value]="siLoanDisbursementScheduleList" dataKey="id" editMode="row"
+                styleClass="p-datatable-striped" [rows]="5" [paginator]="true" [showJumpToPageDropdown]="true"
+                [showPageLinks]="false" [pageLinks]="1" [responsive]="true" rowExpandMode="single"
+                [globalFilterFields]="['disbursementNumber', 'typeName', 'disbursementLimit', 'minDaysForDisbursement', 'disbursementOrder', 'remarks']">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th><span class="red">*</span>{{'ERP.DISBURSEMENT_NUMBER' | translate}}</th>
+                        <th><span class="red">*</span>{{'ERP.DISBURSEMENT_TYPE' | translate}}</th>
+                        <th><span class="red">*</span>{{'ERP.DISBURSEMENT_LIMIT' | translate}}</th>
+                        <th><span class="red">*</span>{{'ERP.MIN_DISBURSEMENT_AMOUNT' | translate}}</th>
+                        <th><span class="red">*</span>{{'ERP.DISBURSEMENT_ORDER' | translate}}</th>
+                        <th>{{'ERP.REMARKS' | translate}}</th>
+                        <th class="width-15em">{{'ERP.ACTION' | translate}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-row let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="row">
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" formControlName="disbursementNumber" [disabled]="true"
+                                        [(ngModel)]="row.disbursementNumber">
+                                </ng-template>
+                                <ng-template pTemplate="output">{{row.disbursementNumber}}</ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-dropdown placeholder="{{'ERP.SELECT'| translate}}" formControlName="type"
+                                        [options]="disbursementTypesList" id="type" [(ngModel)]="row.type"
+                                        [appendTo]="'body'">
+                                    </p-dropdown>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{row.typeName}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" formControlName="disbursementLimit"
+                                        [(ngModel)]="row.disbursementLimit">
+                                </ng-template>
+                                <ng-template pTemplate="output">{{row.disbursementLimit}}</ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" formControlName="minDaysForDisbursement"
+                                        [(ngModel)]="row.minDaysForDisbursement">
+                                </ng-template>
+                                <ng-template pTemplate="output">{{row.minDaysForDisbursement}}</ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" formControlName="disbursementOrder"
+                                        [(ngModel)]="row.disbursementOrder">
+                                </ng-template>
+                                <ng-template pTemplate="output">{{row.disbursementOrder}}</ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" formControlName="remarks" [(ngModel)]="row.remarks">
+                                </ng-template>
+                                <ng-template pTemplate="output">{{row.remarks}}</ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td>
+                            <div class="global-action-btn flex align-items-center justify-content-center">
+                                <p-button label="{{'ERP.SAVE'|translate }}" *ngIf="editing"
+                                    [disabled]="!disbursementForm.valid" (click)="saveSILoanDisbursementSchedule(row)"
+                                    pSaveEditableRow id="prj_stakehlder_bt_cancel" class="action-save">
+                                </p-button>
+                                <p-button label="{{'ERP.CANCEL'|translate }}" *ngIf="editing" pCancelEditableRow
+                                    id="prj_stakehlder_bt_cancel" class="action-cancel"
+                                    (click)="cancelSILoanDisbursementSchedule()">
+                                </p-button>
+                                <p-button label="{{'ERP.EDIT' | translate}}" *ngIf="!editing" pInitEditableRow
+                                    [disabled]="editDeleteDisable" (click)="editSILoanDisbursementSchedule(row)"
+                                    id="prj_stakehlder_bt_edit" class="action-edit"></p-button>
+                                <p-button label="{{'ERP.DELETE' | translate}}" *ngIf="!editing"
+                                    [disabled]="editDeleteDisable" (click)="deleteSILoanDisbursementSchedule(row)"
+                                    id="prj_stakehlder_bt_edit" class="action-delete"></p-button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </form>
+
+    </div>
+</div>
+
+<p-dialog header="Product Details" [(visible)]="displayDialog" styleClass="moredetails-style">
+    <div class="popup-basic-details">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.PRODUCT_NAME' | translate}}</span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.name}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.INTEREST_CALCULATION_TYPE' | translate}}</span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.interestCalculationTypeName}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.MIN_LOAN_PERIOD' | translate}} </span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.minLoanPeriod}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.MAX_LOAN_PERIOD' | translate}}</span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.maxLoanPeriod}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.MAX_LOAN_ACCOUNTS_ALLOWED' | translate}}</span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.maxLoanAccountsAllowed}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.NO_OF_GUARANTORS_REQUIRED' | translate}}</span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.noOfGuarantorsRequired}}</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.MIN_DAYS_FOR_RENEWAL' | translate}}</span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.minDaysForRenewel}}</p>
+                </div>
+            </div>
+            <!-- <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.IS_NPA_EXCEPTIONAL' | translate}}</span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.isNpaExceptional}}</p>
+                </div>
+            </div> -->
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12 min-h-50px">
+                <div class="form-group">
+                    <span class="label-view">{{'LOANS.IS_INSURANCE_APPLICABLE' | translate}}</span>
+                    <p class="label-input-text">{{siLoanProductDefinitionModel.isInsuranceAppicableName}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [closable]="false" [(visible)]="displayDeleteDialog" [responsive]="true" styleClass="delete-popup">
+    <div class="col-12">
+        <i class="fa fa-times-circle text-center" aria-hidden="true"></i>
+        <p class="text-center popup-header">{{'ERP.ARE_YOU_SURE_TO_DELETE' | translate}}</p>
+        <p class="text-center pop-subheader">{{'ERP.DO_YOU_REALLY_TO_DELETE_THESE_RECORDS' | translate}}</p>
+    </div>
+    <div class="col-12 text-center p-2">
+        <p-button pRipple class="yes-button" label="{{'ERP.DELETE' | translate}}" (click)="delete()"></p-button>
+        <p-button pRipple class="no-button" label="{{'ERP.CANCEL' | translate}}" (click)="noDelete()"></p-button>
+    </div>
+</p-dialog>

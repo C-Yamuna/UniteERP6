@@ -1,0 +1,1949 @@
+<p-messages label="Info" life="3000" [(value)]="msgs" [showTransitionOptions]="'500ms'"
+    [hideTransitionOptions]="'500ms'"></p-messages>
+<div class="col-12">
+    <div class="row">
+        <div class="d-flex justify-content-between top-header-section">
+            <div class="main-heading mt-1 justify-content-start">{{'LOAN_TRANSACTION.COMPOUND_INTEREST' | translate}} <i
+                    class="fa fa-angle-right font-bold mr-3 ml-3"></i>
+                {{'LOAN_TRANSACTION.VIEW' | translate}}</div>
+        </div>
+
+        <div class="col-12 p-0">
+            <div class="row">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 left-sidecard">
+                    <!-- Individual view screen -->
+                    <div class="col-12 basic-view side-card-style" *ngIf="memberTypeName == 'Individual'">
+                        <div class="col-12 inner-border">
+                            <div class="side-card-header-border">
+                                <div class="row">
+                                    <div class="col-10 py-0">
+                                        <h6 class="side-card-header">{{'LOAN_TRANSACTION.BASIC_DETAILS' | translate}}</h6>
+                                    </div>
+                                    <div class="col-2 py-0">
+                                        <p-button icon="fa fa-pencil-square-o" class="kyc-edit-btn pull-right"
+                                            *ngIf="isNewMember && preveiwFalg"
+                                            (click)="editMembership(ciLoanApplicationModel)"></p-button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Admission No & Image-part -->
+                                <div class="col-xl-12 col-lg-12 col-md-3 col-sm-4 col-xs-4">
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <div *ngIf="!membershipBasicDetailsModel.photoCopyPath">
+                                            <img src="assets/images/no-image.jpg" class="image-user">
+                                        </div>
+                                        <div class="px-0"
+                                            *ngFor="let img of membershipBasicDetailsModel.multipartFileListForPhotoCopy">
+                                            <div class="col-12 p-0"
+                                                *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png' ">
+                                                <a href="{{img.imageValue}}">
+                                                    <img src="{{img.imageValue}}" class="image-user">
+                                                </a>
+                                            </div>
+                                            <div class="col-12 p-0" *ngIf=" img.fileType =='pdf'">
+                                                <a href="{{img.imageValue}}">
+                                                    <img src="assets\images\pdf.png" class="image-user">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <p class="active-status"></p>
+                                        <div *ngIf="!membershipBasicDetailsModel.signatureCopyPath">
+                                            <img src="assets/images/no-image.jpg" class="image-sign">
+                                        </div>
+                                        <div class="px-0"
+                                            *ngFor="let img of membershipBasicDetailsModel.multipartFileListForsignatureCopyPath">
+                                            <div class="col-12 p-0"
+                                                *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png' ">
+                                                <a href="{{img.imageValue}}">
+                                                    <img src="{{img.imageValue}}" class="image-sign">
+                                                </a>
+                                            </div>
+                                            <div class="col-12 p-0" *ngIf=" img.fileType =='pdf'">
+                                                <a href="{{img.imageValue}}">
+                                                    <img src="assets\images\pdf.png" class="image-sign">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center min-h-50px">
+                                        <span class="text-fontwt">{{'LOAN_TRANSACTION.ADMISSION_NUMBER' | translate}}</span>
+                                        <p class="font-semibold text-break">{{membershipBasicDetailsModel.tempAdmissionNumber}}
+                                        </p>
+                                    </div>
+                                    <div class="text-center min-h-50px">
+                                        <span class="text-fontwt">{{'LOAN_TRANSACTION.NAME' | translate}}</span>
+                                        <p class="font-semibold text-break"><span
+                                                class="border-bottom">{{membershipBasicDetailsModel.name}}</span></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-12 col-md-9 col-sm-8 col-xs-8 mt-2">
+                                    <div class="row">
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-id-card-o"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.MEMBER_TYPE' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipBasicDetailsModel.memberTypeName}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-calendar"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.ADMISSION_DATE' | translate}}
+                                                </p>
+                                                <p class="label-input-text">
+                                                    {{membershipBasicDetailsModel.admissionDateVal}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-calendar"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.DATE_OF_BIRTH' |
+                                                    translate}} & {{'LOAN_TRANSACTION.AGE' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipBasicDetailsModel.dobVal}} &
+                                                    {{membershipBasicDetailsModel.age}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-phone-square"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.CONTACT' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipBasicDetailsModel.mobileNumber}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-envelope"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.EMAIL' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipBasicDetailsModel.emailId}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-address-card-o"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.AADHAR' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipBasicDetailsModel.aadharNumber}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-address-card-o"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.PAN' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipBasicDetailsModel.panNumber}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card"
+                                            *ngIf="membershipBasicDetailsModel.isKycApproved">
+                                            <div class="col-10 d-flex p-0">
+                                                <span class="basicdata-icons icon-size"><i
+                                                        class="fa fa-check-circle-o"></i></span>
+                                                <div>
+                                                    <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.KYC' | translate}}</p>
+                                                    <p class="label-input-text">{{isKycApproved}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 kyc-done icon-size text-right"><i
+                                                    class="fa fa-check-circle" aria-hidden="true"></i></div>
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card"
+                                            *ngIf="!membershipBasicDetailsModel.isKycApproved">
+                                            <div class="col-10 d-flex p-0">
+                                                <span class="basicdata-icons icon-size"><i
+                                                        class="fa fa-check-circle-o"></i></span>
+                                                <div>
+                                                    <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.KYC' | translate}}</p>
+                                                    <p class="label-input-text">{{isKycApproved}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 kyc-done icon-size text-right"><i
+                                                    class="fa fa-check-circle text-white" aria-hidden="true"></i></div>
+                                        </div>
+
+                                        <div class="col-12 color-light justify-content-end text-right">
+                                            <a class="fst-italic text-light cursor-pointer"
+                                                (click)="onClickMemberIndividualMoreDetails()">{{'LOAN_TRANSACTION.MORE_DETAILS' |
+                                                translate}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group view screen -->
+                    <div class="col-12 basic-view side-card-style" *ngIf="memberTypeName == 'Group'">
+                        <div class="col-12 inner-border">
+                            <div class="side-card-header-border">
+                                <div class="row">
+                                    <div class="col-10 py-0">
+                                        <h6 class="side-card-header">{{'ERP.GROUP_DETAILS' | translate}}</h6>
+                                    </div>
+                                    <div class="col-2 py-0">
+                                        <p-button icon="fa fa-pencil-square-o" class="kyc-edit-btn pull-right"
+                                            *ngIf="isNewMember && preveiwFalg"
+                                            (click)="editMembership(ciLoanApplicationModel)"></p-button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Admission No & Image-part -->
+                                <div class="col-xl-12 col-lg-12 col-md-3 col-sm-4 col-xs-4">
+                                    <div class="col-12 pic-sig-status">
+                                        <div class="d-flex justify-content-center mb-3">
+                                            <img src="assets/images/avatar-table.png" class="image-user">
+                                            <p class="active-status"></p>
+                                            <img src="assets/images/sign.png" class="image-sign">
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center min-h-50px">
+                                        <span class="text-fontwt">{{'LOAN_TRANSACTION.ADMISSION_NUMBER' | translate}}</span>
+                                        <p class="font-semibold text-break">
+                                            {{membershipGroupDetailsModel.tempAdmissionNumber}}</p>
+                                    </div>
+
+                                    <div class="text-center min-h-50px">
+                                        <span class="text-fontwt">{{'LOAN_TRANSACTION.NAME' | translate}}</span>
+                                        <p class="font-semibold text-break"><span
+                                                class="border-bottom">{{membershipGroupDetailsModel.name}}</span>
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-12 col-md-9 col-sm-8 col-xs-8 mt-2">
+                                    <div class="row">
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-id-card-o"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.MEMBER_TYPE' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipGroupDetailsModel.memberTypeName}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-calendar"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'ERP.REGISTRATION_DATE' | translate}}
+                                                </p>
+                                                <p class="label-input-text">
+                                                    {{membershipGroupDetailsModel.registrationDateVal}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-calendar"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.ADMISSION_DATE' | translate}}
+                                                </p>
+                                                <p class="label-input-text">
+                                                    {{membershipGroupDetailsModel.admissionDateVal}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-phone-square"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.POC_NAME' | translate}}</p>
+                                                <p class="label-input-text">{{membershipGroupDetailsModel.pocName}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-phone-square"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.POC_MOBILE_NO' | translate}}</p>
+                                                <p class="label-input-text">{{membershipGroupDetailsModel.pocNumber}}</p>
+                                            </div>
+                                        </div>
+                                        <!-- <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-envelope"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.EMAIL' | translate}}</p>
+                                                <p class="label-input-text">{{membershipGroupDetailsModel.emailId}}
+                                                </p>
+                                            </div>
+                                        </div> -->
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-address-card-o"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.PAN' | translate}}</p>
+                                                <p class="label-input-text">{{membershipGroupDetailsModel.panNumber}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                        class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                        <span class="basicdata-icons icon-size"><i
+                                                class="fa fa-address-card-o"></i></span>
+                                        <div>
+                                            <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.TAN_NUMBER' | translate}}</p>
+                                            <p class="label-input-text">{{membershipGroupDetailsModel.tanNumber}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <div class="col-10 d-flex p-0">
+                                                <span class="basicdata-icons icon-size"><i
+                                                        class="fa fa-check-circle-o"></i></span>
+                                                <div>
+                                                    <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.KYC' | translate}}</p>
+                                                    <p class="label-input-text">
+                                                        {{membershipGroupDetailsModel.isKycApproved}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 kyc-done icon-size text-right"><i
+                                                    class="fa fa-check-circle" aria-hidden="true"></i></div>
+                                        </div>
+                                        <div class="col-12 color-light justify-content-end text-right">
+                                            <a class="fst-italic text-light cursor-pointer"
+                                                (click)="onClickOfGroupPromotes()">{{'LOAN_TRANSACTION.MORE_DETAILS' |
+                                                translate}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Institution view screen -->
+                    <div class="col-12 basic-view side-card-style" *ngIf="memberTypeName == 'Institution'">
+                        <div class="col-12 inner-border">
+                            <div class="side-card-header-border">
+                                <div class="row">
+                                    <div class="col-10 py-0">
+                                        <h6 class="side-card-header">{{'ERP.INSTITUTION_DETAILS' | translate}}</h6>
+                                    </div>
+                                    <div class="col-2 py-0">
+                                        <p-button icon="fa fa-pencil-square-o" class="kyc-edit-btn pull-right"
+                                        *ngIf="isNewMember && preveiwFalg"
+                                        (click)="editMembership(ciLoanApplicationModel)"></p-button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Admission No & Image-part -->
+                                <div class="col-xl-12 col-lg-12 col-md-3 col-sm-4 col-xs-4">
+                                    <div class="col-12 pic-sig-status">
+                                        <div class="d-flex justify-content-center mb-3">
+                                            <img src="assets/images/avatar-table.png" class="image-user">
+                                            <p class="active-status"></p>
+                                            <img src="assets/images/sign.png" class="image-sign">
+                                        </div>
+                                    </div>
+                                    <div class="text-center min-h-50px">
+                                        <span class="text-fontwt">{{'LOAN_TRANSACTION.ADMISSION_NUMBER' | translate}}</span>
+                                        <p class="font-semibold text-brek">
+                                            {{membershipInstitutionDetailsModel.tempAdmissionNumber}}</p>
+                                    </div>
+
+                                    <div class="text-center min-h-50px">
+                                        <span class="text-fontwt">{{'LOAN_TRANSACTION.NAME' | translate}}</span>
+                                        <p class="font-semibold text-brek"><span
+                                                class="border-bottom">{{membershipBasicDetailsModel.name}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-9 col-sm-8 col-xs-8 mt-2">
+                                    <div class="row">
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-id-card-o"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.MEMBER_TYPE' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipInstitutionDetailsModel.memberTypeName}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-calendar"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.ADMISSION_DATE' | translate}}
+                                                </p>
+                                                <p class="label-input-text">
+                                                    {{membershipInstitutionDetailsModel.admissionDateVal}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-calendar"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.REGISTERED_DATE' | translate}}
+                                                </p>
+                                                <p class="label-input-text">
+                                                    {{membershipInstitutionDetailsModel.registrationDateVal}}</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-envelope"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.POC_NAME' | translate}}</p>
+                                                <p class="label-input-text">{{membershipInstitutionDetailsModel.pocName}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-phone-square"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.POC_MOBILE_NO' | translate}}</p>
+                                                <p class="label-input-text">{{membershipInstitutionDetailsModel.pocNumber}}</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-address-card-o"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.PAN' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipInstitutionDetailsModel.panNumber}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <span class="basicdata-icons icon-size"><i
+                                                    class="fa fa-address-card-o"></i></span>
+                                            <div>
+                                                <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.TAN_NUMBER' | translate}}</p>
+                                                <p class="label-input-text">
+                                                    {{membershipInstitutionDetailsModel.tanNumber}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-xl-12 col-lg-12 col-md-4 col-sm-6 col-xs-12 d-flex basicdata-card">
+                                            <div class="col-10 d-flex p-0">
+                                                <span class="basicdata-icons icon-size"><i
+                                                        class="fa fa-check-circle-o"></i></span>
+                                                <div>
+                                                    <p class="label-view text-fontwt">{{'LOAN_TRANSACTION.KYC' | translate}}</p>
+                                                    <p class="label-input-text">
+                                                        {{membershipInstitutionDetailsModel.isKycCompleted}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 kyc-done icon-size text-right"><i
+                                                    class="fa fa-check-circle" aria-hidden="true"></i></div>
+                                        </div>
+                                        <div class="col-12 color-light justify-content-end text-right">
+                                            <a class="fst-italic text-light cursor-pointer"
+                                                (click)="onClickOfInstitutionPromotes()">{{'LOAN_TRANSACTION.MORE_DETAILS' |
+                                                translate}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 right-sidecard">
+                    <p-scrollPanel styleClass="scroll-class">
+                        <div class="row">
+
+                            <!-- KYC DETAILS -->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-12 p-0">
+                                    <div class="global-card-bg-color view-carddata icon-size pb-1">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-podcast"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.KYC' | translate}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editKYCDetails(ciLoanApplicationModel)"></p-button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 px-0">
+                                                <div class="row g-3">
+
+                                                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+                                                        *ngFor="let document of kycGridList ; let i = index">
+                                                        <div class="stepper-kyc-card p-3 mb-2">
+
+                                                            <!-- view card -->
+                                                            <div class="row">
+
+                                                                <div
+                                                                    class="col-lg-7 col-md-7 col-sm-7 col-xs-6 d-flex align-items-center">
+                                                                    <div class="card-leftbody">
+                                                                        <div
+                                                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 min-h-50px">
+                                                                            <h6 class="label-view">Document Type</h6>
+                                                                            <p class="label-input-text">
+                                                                                {{document.kycDocumentTypeName}}</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 min-h-50px">
+                                                                            <h6 class="label-view">Document Number</h6>
+                                                                            <p class="label-input-text">
+                                                                                {{document.documentNumber}}</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 min-h-50px">
+                                                                            <h6 class="label-view">Document Name</h6>
+                                                                            <p class="label-input-text docname-texteclipse"
+                                                                                pTooltip="{{document.kycFilePath}}"
+                                                                                tooltipPosition="bottom">
+                                                                                {{document.kycFilePath}} </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-lg-5 col-md-5 col-sm-5 col-xs-6 justify-content-end">
+                                                                    <div class="kycview-done icon-size text-right"><i
+                                                                            class="fa fa-check-circle mr-0"
+                                                                            aria-hidden="true"></i></div>
+
+                                                                    <div class="col-12 px-0">
+                                                                        <div class="col-12 px-0"
+                                                                            *ngFor="let img of document.multipartFileList">
+                                                                            <div class="col-12 p-0"
+                                                                                *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png' ">
+                                                                                <a href="{{img.imageValue}}">
+                                                                                    <img src="{{img.imageValue}}"
+                                                                                        class="upload-img img-fluid"
+                                                                                        pTooltip="{{img.fileName}}"
+                                                                                        tooltipPosition="bottom">
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="col-12 p-0"
+                                                                                *ngIf=" img.fileType =='pdf'">
+                                                                                <a href="{{img.imageValue}}">
+                                                                                    <img src="assets\images\pdf.png"
+                                                                                        class="pdf-img img-fluid"
+                                                                                        pTooltip="{{img.fileName}}"
+                                                                                        tooltipPosition="bottom">
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-1"></div>
+
+                            <!-- COMMUNICATION DETAILS -->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-12 p-0">
+                                    <div class="global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-map-marker"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.COMMUNICATION' | translate}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editCommunicationDetails(ciLoanApplicationModel)"></p-button>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-12 px-0">
+                                                <div class="row g-3">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="nominee-card p-3 pb-1 mb-2">
+                                                            <div class="row">
+                                                                <h6 class="super-sub-heading mt-1">Registered</h6>
+                                                                <div class="col-12">
+                                                                    <div class="row mt-2">
+                                                                        <div
+                                                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                            <div class="row">
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">State</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.stateName}}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">District</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.districtName}}
+                                                                                    </p>
+                                                                                </div>
+
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">Sub District
+                                                                                    </h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.subDistrictName}}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">Village</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.villageName}}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">Address</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.address1}}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">Pincode</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.pinCode}}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="nominee-card p-3 pb-1 mb-2">
+                                                            <div class="row">
+                                                                <h6 class="super-sub-heading mt-1">Permanent</h6>
+                                                                <div class="col-12">
+                                                                    <div class="row mt-2">
+                                                                        <div
+                                                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                            <div class="row">
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">State</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.permanentStateName}}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">District</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.permanentDistrictName}}
+                                                                                    </p>
+                                                                                </div>
+
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">Sub District
+                                                                                    </h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.permanentSubDistrictName}}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">Village</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.permanentVillageName}}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">Address</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.permanentAddress1}}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                    <h6 class="label-view">Pincode</h6>
+                                                                                    <p class="label-input-text">
+                                                                                        {{ciLoanCommunicationModel.permanentPinCode}}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="col-6">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 ht-3rem">
+                                                        <h6 class="subsuper-sub-heading mt-1">Registered</h6>
+                                                        <p class="label-input-text">{{registeredAddress}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 ht-3rem">
+                                                        <h6 class="subsuper-sub-heading mt-2">Permanent</h6>
+                                                        <p class="label-input-text">{{permanentAddress}}</p>
+                                                    </div>
+                                                </div> -->
+                                                </div>
+                                                <!-- <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 ht-3rem">
+                                                    <h6 class="subsuper-sub-heading mt-1">Registered</h6>
+                                                    <p class="label-input-text">{{addressOne}}</p>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 ht-3rem">
+                                                    <h6 class="subsuper-sub-heading mt-2">Permanent</h6>
+                                                    <p class="label-input-text">{{addressTwo}}</p>
+                                                </div>
+                                            </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-1"></div>
+
+                            <!-- APPLICATION DETAILS -->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-12 p-0">
+                                    <div class="global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-id-badge"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.APPLICATION_DETAILS' |
+                                                            translate}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editApplicationDetails(ciLoanApplicationModel)"></p-button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.PRODUCT_TYPE' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.ciProductName}}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px" *ngIf ='ciLoanApplicationModel.memberTypeName == "Individual"'>
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.ACCOUNT_TYPE' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.operationTypeName}}</p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.ACCOUNT_NUMBER' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.accountNumber}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- </div>
+                            <div class="row"> -->
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.APPLICATION_DATE' | translate}}
+                                                        </h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.applicationDateVal}}</p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.MAX_LOAN_PERIOD_IN_MONTHS' |
+                                                            translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.loanPeriod}}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.PENAL_ROI' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.penalInterest}}</p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.IOD' | translate}}</h6>
+                                                        <p class="label-input-text">{{ciLoanApplicationModel.iod}}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.REPAYMENT_FREQUENCY' | translate}}
+                                                        </h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.repaymentFrequencyName}}</p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.LOAN_PURPOSE' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.purposeName}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.OPERATION_TYPE' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.operationTypeName}}</p>
+                                                    </div> -->
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.REQUEST_AMOUNT' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.requestedAmount}}</p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.SANCTION_DATE' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.sanctionDateVal}}</p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.SANCTION_AMOUNT' | translate}}
+                                                        </h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.sanctionAmount}}</p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.PLANNED_DISBURSEMENTS' |
+                                                            translate}}
+                                                        </h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.plannedDisbursements}}</p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.LOAN_PERIOD_IN_MONTHS' |
+                                                            translate}}
+                                                        </h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.loanPeriod}}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-6 min-h-50px">
+                                                        <h6 class="label-view">{{'LOAN_TRANSACTION.LOAN_DUE_DATE' | translate}}</h6>
+                                                        <p class="label-input-text">
+                                                            {{ciLoanApplicationModel.loanDueDateVal}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-1"></div>
+
+                            <!-- JOINT HOLDER DETAILS -->
+                            <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="jointHoldersFlag">
+                                <div class="col-12 p-0">
+                                    <div class=" global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-handshake-o"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.JOINT_HOLDER' | translate}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editJointHolderDetails(ciLoanApplicationModel)"></p-button>
+                                                </div>
+                                            </div>
+
+                                            <div class="globel-border-top-color"></div>
+                                            <p-table [columns]="jointHolderColumns" [value]="jointHolderDetailsList"
+                                                dataKey="id" selectionMode="single"
+                                                styleClass="p-datatable-striped custom-overflow-auto"
+                                                [showJumpToPageDropdown]="true" [showPageLinks]="false" [rows]="5"
+                                                [paginator]="false" [pageLinks]="1" [responsive]="true"
+                                                rowExpandMode="single">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th *ngFor="let col of jointHolderColumns">
+                                                            {{col.header | translate}}
+                                                        </th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-jointHolderDetailsList
+                                                    let-expanded="expanded" let-rowData>
+                                                    <tr>
+                                                        <td *ngFor="let col of jointHolderColumns">
+                                                            {{rowData[col.field]}}
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                            <div class="col-12 margtop-3rem"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-1"></div>
+
+                            <!-- Group Promoter Details -->
+                            <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="memberGroupFlag">
+                                <div class="col-12 p-0">
+                                    <div class=" global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-male"></i></span>
+                                                        <h6 class="sub-heading mt-1">{{'LOAN_TRANSACTION.PROMOTER_DETAILS' |
+                                                            translate}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="globel-border-top-color"></div>
+
+                                            <p-table [columns]="memberPromoterDetails" [value]="groupPromoterList"
+                                                dataKey="id" selectionMode="single" styleClass="p-datatable-striped"
+                                                [showJumpToPageDropdown]="true" [showPageLinks]="false" [rows]="5"
+                                                [paginator]="false" [pageLinks]="1" [responsive]="true"
+                                                rowExpandMode="single">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th *ngFor="let col of memberPromoterDetails">
+                                                            {{col.header | translate}}
+                                                        </th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-groupPromoterList
+                                                    let-expanded="expanded" let-rowData>
+                                                    <tr>
+                                                        <td *ngFor="let col of memberPromoterDetails">
+                                                            {{rowData[col.field]}}
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                            <div class="col-12 margtop-3rem"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Institution Promoter Details -->
+                            <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="memberIntitutionFlag">
+                                <div class="col-12 p-0">
+                                    <div class=" global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-male"></i></span>
+                                                        <h6 class="sub-heading mt-1">{{'LOAN_TRANSACTION.PROMOTER_DETAILS' |
+                                                            translate}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="globel-border-top-color"></div>
+
+                                            <p-table [columns]="memberPromoterDetails" [value]="groupPromoterList"
+                                                dataKey="id" selectionMode="single" styleClass="p-datatable-striped"
+                                                [showJumpToPageDropdown]="true" [showPageLinks]="false" [rows]="5"
+                                                [paginator]="false" [pageLinks]="1" [responsive]="true"
+                                                rowExpandMode="single">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th *ngFor="let col of memberPromoterDetails">
+                                                            {{col.header | translate}}
+                                                        </th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-groupPromoterList
+                                                    let-expanded="expanded" let-rowData>
+                                                    <tr>
+                                                        <td *ngFor="let col of memberPromoterDetails">
+                                                            {{rowData[col.field]}}
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+
+                                            <div class="col-12 margtop-3rem"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 p-1" *ngIf="memberGroupFlag"></div>
+                            <div class="col-12 p-1" *ngIf="memberIntitutionFlag"></div>
+
+                            <!-- NOMINEE and GUARDIAN -->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-12 p-0">
+                                    <div class="global-card-bg-color view-carddata icon-size pb-1">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-user-o"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.NOMINEE_DETAILS' |
+                                                            translate}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editNomineeDetails(ciLoanApplicationModel)"></p-button>
+                                                </div>
+                                                <!-- <div class="col-6">
+                                                                <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                                    class="kyc-edit-btn pull-right"
+                                                                    (click)="editNomineeDetails(ciLoanApplicationModel)"></p-button>
+                                                            </div> -->
+                                            </div>
+                                            <div class="col-12 px-0">
+                                                <div class="row g-3">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="stepper-nominee-card p-3 pb-1 mb-2">
+                                                            <div class="row">
+                                                                <h6 class="super-sub-heading mt-1">{{'LOAN_TRANSACTION.NOMINEE' |
+                                                                    translate}}</h6>
+                                                                <div class="col-12">
+                                                                    <div class="row mt-2">
+                                                                        <div
+                                                                            class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center">
+                                                                            <div class="card-leftbody">
+                                                                                <div class="row">
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                        <h6 class="label-view">
+                                                                                            {{'ERP.NOMINEE_TYPE'
+                                                                                            | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanNomineeModel.nomineeTypeName}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px" *ngIf="ciLoanNomineeModel.nomineeType == 3">
+                                                                                        <h6 class="label-view">{{'ERP.REMARKS' | translate}}</h6>
+                                                                                        <p class="label-input-text">{{ciLoanNomineeModel.remarks}}</p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                        <h6 class="label-view" *ngIf="ciLoanNomineeModel.nomineeType != 3">
+                                                                                            {{'LOAN_TRANSACTION.RELATIONSHIP_WITH_MEMBER'
+                                                                                            | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanNomineeModel.relationTypeName}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                        <h6 class="label-view" *ngIf="ciLoanNomineeModel.nomineeType != 3">
+                                                                                            {{'LOAN_TRANSACTION.NAME'
+                                                                                            | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanNomineeModel.nomineeName}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                        <h6 class="label-view" *ngIf="ciLoanNomineeModel.nomineeType != 3">
+                                                                                            {{'LOAN_TRANSACTION.AADHAR' | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanNomineeModel.nomineeAadharNumber}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                        <h6 class="label-view" *ngIf="ciLoanNomineeModel.nomineeType != 3">
+                                                                                            {{'LOAN_TRANSACTION.CONTACT' |
+                                                                                            translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanNomineeModel.nomineeMobileNumber}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                        <h6 class="label-view" *ngIf="ciLoanNomineeModel.nomineeType != 3">
+                                                                                            {{'LOAN_TRANSACTION.EMAIL'
+                                                                                            | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanNomineeModel.nomineeEmailId}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12 justify-content-end">
+                                                                            <div class="col-12 px-0">
+                                                                            <div class="col-12 px-0" *ngFor="let img of ciLoanNomineeModel.nomineeMultiPartList">
+                                                                                <div class="col-12 p-0"
+                                                                                    *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png' ">
+                                                                                    <a href="{{img.imageValue}}">
+                                                                                        <img src="{{img.imageValue}}" class="upload-img img-fluid">
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="col-12 p-0" *ngIf=" img.fileType =='pdf'">
+                                                                                    <a href="{{img.imageValue}}">
+                                                                                        <img src="assets\images\pdf.png" class="pdf-img img-fluid">
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-12 px-0" *ngIf="ciLoanNomineeModel.nomineeMultiPartList == null || ciLoanNomineeModel.nomineeMultiPartList == undefined || ciLoanNomineeModel.nomineeMultiPartList.length ==0">
+                                                                                <span>
+                                                                                    <img src="assets/images/no-image.jpg" class="image-user cursor-pointer">
+                                                                                </span>
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12"
+                                                        *ngIf="membershipBasicDetailsModel.isMinor">
+                                                        <div class="stepper-nominee-card p-3 pb-1 mb-2">
+                                                            <div class="row">
+                                                                <h6 class="super-sub-heading mt-1">{{'LOAN_TRANSACTION.GUARDIAN' |
+                                                                    translate}}</h6>
+
+                                                                <!-- <div class="col-6">
+                                                                <p-button *ngIf="preveiwFalg"
+                                                                    icon="fa fa-pencil-square-o"
+                                                                    class="kyc-edit-btn pull-right"
+                                                                    (click)="editNomineeDetails(ciLoanApplicationModel)"></p-button>
+                                                            </div> -->
+
+                                                                <div class="col-12">
+                                                                    <div class="row mt-2">
+                                                                        <div
+                                                                            class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center">
+                                                                            <div class="card-leftbody">
+                                                                                <div class="row">
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                                                                                        <h6 class="label-view">
+                                                                                            {{'ERP.GUARDAIN_TYPE'
+                                                                                            | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanGuardianModel.guardianTypeName}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px" *ngIf="ciLoanGuardianModel.guardianType == 3">
+                                                                                        <h6 class="label-view">{{'ERP.REMARKS' | translate}}</h6>
+                                                                                        <p class="label-input-text">{{ciLoanGuardianModel.remarks}}</p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px" *ngIf="ciLoanGuardianModel.guardianType != 3">
+                                                                                        <h6 class="label-view">
+                                                                                            {{'LOAN_TRANSACTION.RELATIONSHIP_WITH_MEMBER'
+                                                                                            | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanGuardianModel.relationshipTypeName}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px" *ngIf="ciLoanGuardianModel.guardianType != 3">
+                                                                                        <h6 class="label-view">
+                                                                                            {{'LOAN_TRANSACTION.NAME'
+                                                                                            | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanGuardianModel.guardianName}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px" *ngIf="ciLoanGuardianModel.guardianType != 3">
+                                                                                        <h6 class="label-view">
+                                                                                            {{'LOAN_TRANSACTION.AADHAR' | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanGuardianModel.guardianAadharNumber}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px" *ngIf="ciLoanGuardianModel.guardianType != 3">
+                                                                                        <h6 class="label-view">
+                                                                                            {{'LOAN_TRANSACTION.CONTACT' |
+                                                                                            translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanGuardianModel.guardianMobileNumber}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 min-h-50px" *ngIf="ciLoanGuardianModel.guardianType != 3">
+                                                                                        <h6 class="label-view">
+                                                                                            {{'LOAN_TRANSACTION.EMAIL'
+                                                                                            | translate}}
+                                                                                        </h6>
+                                                                                        <p class="label-input-text">
+                                                                                            {{ciLoanGuardianModel.guardianEmailId}}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12 justify-content-end">
+                                                                            <div class="col-12 px-0">
+                                                                            <div class="col-12 px-0" *ngFor="let img of ciLoanGuardianModel.guardainMultipartList">
+                                                                                <div class="col-12 p-0"
+                                                                                    *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png' ">
+                                                                                    <a href="{{img.imageValue}}">
+                                                                                        <img src="{{img.imageValue}}" class="upload-img img-fluid">
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="col-12 p-0" *ngIf=" img.fileType =='pdf'">
+                                                                                    <a href="{{img.imageValue}}">
+                                                                                        <img src="assets\images\pdf.png" class="pdf-img img-fluid">
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-12 px-0" *ngIf="ciLoanGuardianModel.guardainMultipartList == null || ciLoanGuardianModel.guardainMultipartList == undefined || ciLoanGuardianModel.guardainMultipartList.length == 0 ">
+                                                                                <span>
+                                                                                    <img src="assets/images/no-image.jpg" class="image-user cursor-pointer">
+                                                                                </span>
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-1"></div>
+
+                            <!-- LOAN GUARANTOR DETAILS-->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-12 p-0">
+                                    <div class=" global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-certificate"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.GUARANTOR_DETAILS' |
+                                                            translate}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editGuarantorDetails(ciLoanApplicationModel)"></p-button>
+                                                </div>
+                                            </div>
+
+                                            <div class="globel-border-top-color"></div>
+                                            <p-table [columns]="guarantorColumns" [value]="ciLoanGuarantorDetailsList"
+                                                dataKey="id" selectionMode="single"
+                                                styleClass="p-datatable-striped custom-overflow-auto"
+                                                [showJumpToPageDropdown]="true" [showPageLinks]="false" [rows]="5"
+                                                [paginator]="false" [pageLinks]="1" [responsive]="true"
+                                                rowExpandMode="single">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th *ngFor="let col of guarantorColumns">
+                                                            {{col.header | translate}}
+                                                        </th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-ciLoanGuarantorDetailsList
+                                                    let-expanded="expanded" let-rowData>
+                                                    <tr>
+                                                        <td *ngFor="let col of guarantorColumns">
+                                                            {{rowData[col.field]}}
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                            <div class="col-12 margtop-3rem"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-1"></div>
+
+                            <!-- LOAN MORTGAGE -->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-12 p-0">
+                                    <div class=" global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-cubes"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.MORTAGAGE_DETAILS' |
+                                                            translate}}-{{ciLoanApplicationModel.collateralTypeName}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editMortgageDetails(ciLoanApplicationModel)"></p-button>
+                                                </div>
+                                            </div>
+
+                                            <div class="globel-border-top-color"></div>
+                                            <p-table [columns]="goldLoanMortgageColumns"
+                                                [value]="collateralList" dataKey="id"
+                                                selectionMode="single" styleClass="p-datatable-striped"
+                                                [showJumpToPageDropdown]="true" [showPageLinks]="false" [rows]="5"
+                                                [paginator]="false" [pageLinks]="1" [responsive]="true"
+                                                rowExpandMode="single">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th *ngFor="let col of goldLoanMortgageColumns">
+                                                            {{col.header | translate}}
+                                                        </th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-ciGoldLoanMortgageDetailsList
+                                                    let-expanded="expanded" let-rowData>
+                                                    <tr>
+                                                        <td *ngFor="let col of goldLoanMortgageColumns">
+                                                            {{rowData[col.field]}}
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                            <div class="col-12 margtop-3rem"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-1"></div>
+
+                            <!-- LOAN DOCUMENTS -->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-12 p-0">
+                                    <div class="global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-file-text"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.DOCUMENTS' |
+                                                            translate}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editDocumentDetails(ciLoanApplicationModel)"></p-button>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 px-0">
+                                                <div class="row g-3">
+                                                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+                                                        *ngFor="let document of ciLoanDocumentsDetailsList ; let i = index">
+                                                        <div class="stepper-doc-card p-3 mb-2">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-lg-7 col-md-7 col-sm-7 d-flex align-items-center">
+                                                                    <div class="card-leftbody">
+                                                                        <div
+                                                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 min-h-50px">
+                                                                            <h6 class="label-view">{{'LOAN_TRANSACTION.DOCUMENT_TYPE' |
+                                                                                translate}}</h6>
+                                                                            <p class="label-input-text">
+                                                                                {{document.documentTypeName}}</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 min-h-50px">
+                                                                            <h6 class="label-view">{{'LOAN_TRANSACTION.DOCUMENT_NUMBER' |
+                                                                                translate}}</h6>
+                                                                            <p class="label-input-text">
+                                                                                {{document.documentNo}}</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 min-h-50px">
+                                                                            <h6 class="label-view">{{'LOAN_TRANSACTION.DOCUMENT_NAME' |
+                                                                                translate}}</h6>
+                                                                            <p class="label-input-text docname-texteclipse"
+                                                                                pTooltip="{{document.filePath}}"
+                                                                                tooltipPosition="top">
+                                                                                {{document.filePath}}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div
+                                                                    class="col-lg-5 col-md-5 col-sm-5 justify-content-end">
+                                                                    <div class="col-12 px-0 mt-4">
+                                                                        <div class="col-12 px-0"
+                                                                            *ngFor="let img of document.multipartFileList">
+                                                                            <div class="col-12 p-0"
+                                                                                *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png' ">
+                                                                                <a href="{{img.imageValue}}">
+                                                                                    <img src="{{img.imageValue}}"
+                                                                                        class="upload-img img-fluid"
+                                                                                        pTooltip="{{img.fileName}}"
+                                                                                        tooltipPosition="bottom">
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="col-12 p-0"
+                                                                                *ngIf=" img.fileType =='pdf'">
+                                                                                <a href="{{img.imageValue}}">
+                                                                                    <img src="assets\images\pdf.png"
+                                                                                        class="pdf-img img-fluid"
+                                                                                        pTooltip="{{img.fileName}}"
+                                                                                        tooltipPosition="bottom">
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-1"></div>
+
+                            <!-- LOAN GENEALOGY TREE-->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-12 p-0">
+                                    <div class=" global-card-bg-color view-carddata icon-size">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-flex">
+                                                        <span class="card-icon"><i class="fa fa-sitemap"></i></span>
+                                                        <h6 class="sub-heading">{{'LOAN_TRANSACTION.GENEALOGY_TREE_DETAILS' |
+                                                            translate}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-button *ngIf="preveiwFalg" icon="fa fa-pencil-square-o"
+                                                        class="kyc-edit-btn pull-right"
+                                                        (click)="editGenealogyTreeDetails(ciLoanApplicationModel)"></p-button>
+                                                </div>
+                                            </div>
+
+                                            <div class="globel-border-top-color"></div>
+                                            <p-table [columns]="genealogyTreeDetails" [value]="ciLoanGenealogyTreeList"
+                                                dataKey="id" selectionMode="single" styleClass="p-datatable-striped"
+                                                [showJumpToPageDropdown]="true" [showPageLinks]="false" [rows]="5"
+                                                [paginator]="false" [pageLinks]="1" [responsive]="true"
+                                                rowExpandMode="single">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th *ngFor="let col of genealogyTreeDetails">
+                                                            {{col.header | translate}}
+                                                        </th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-ciLoanGenealogyTreeList
+                                                    let-expanded="expanded" let-rowData>
+                                                    <tr>
+                                                        <td *ngFor="let col of genealogyTreeDetails">
+                                                            {{rowData[col.field]}}
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                            <div class="col-12 margtop-3rem"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </p-scrollPanel>
+                    <div class="col-12 viewbottom-footer icon-size">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-4 col-md-3 col-sm-4 mt-4" *ngIf="isShowSubmit">
+                                <p-button icon="fa fa-download" iconPos="left"   (click)="pdfDownload()" pTooltip="Filename.pdf"
+                                    tooltipPosition="top"></p-button>
+                                <!-- <p-button icon="fa fa-print" iconPos="left" pTooltip="Print"
+                                    tooltipPosition="top"></p-button> -->
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-3 col-sm-4 mt-4" *ngIf="isShowSubmit">
+                                <div class="form-label">
+                                    <div class="uplodad-style align-items-center" >
+                                        <!-- Upload Button Column -->
+                                        <span class="text-fontwt">{{'ERP.UPLOAD_SIGNED_COPY' | translate}}</span>
+                                        <p-fileUpload  #fileUpload class="qua-upld file-attach semi-bold" name="myfile[]" chooseLabel=" "
+                                            id="apply-leave_fileUp_attach" name="file" accept=".png,.jpg,.jpeg,.pdf" (onRemove)="fileRemoeEvent()"
+                                            [customUpload]="true" formContralName="fileUpload" (onSelect)="pdfUploader($event,fileUpload)">
+                                        </p-fileUpload>
+                            
+                                        <!-- Uploaded Files Display Column -->
+                                        <div class="col-12 d-flex p-1 contant-body" *ngFor="let img of ciLoanApplicationModel.multipartFileList">
+                                            <span *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png'">
+                                                <a href="{{img.imageValue}}">
+                                                    <img src="{{img.imageValue}}" width="22" height="22">
+                                                </a>
+                                            </span>
+                                            <span *ngIf="img.fileType=='pdf'">
+                                                <a href="{{img.imageValue}}"> <img src="assets/images/pdficon-img.png" width="22" height="22"></a>
+                                            </span>
+                                            <span class="docname-texteclipse ml-3" pTooltip="{{img.fileName}}" tooltipPosition="bottom">
+                                                {{img.fileName}}
+                                            </span>
+                                        </div>
+                            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-3 col-sm-4 mt-4" *ngIf="!isShowSubmit">
+                                <div class="form-label">
+                                    <span class="text-fontwt">{{'ERP.UPLOAD_SIGNED_COPY' | translate}}</span>
+                                    <div class="uplodad-style align-items-center">
+                                        <!-- Uploaded Files Display Column -->
+                                        <div class="col-12 d-flex px-0" *ngFor="let img of ciLoanApplicationModel.multipartFileList">
+                                            <span *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png'">
+                                                <a href="{{img.imageValue}}">
+                                                    <img src="{{img.imageValue}}" width="22" height="22">
+                                                </a>
+                                            </span>
+                                            <span *ngIf="img.fileType=='pdf'">
+                                                <a href="{{img.imageValue}}"> <img src="assets/images/pdficon-img.png" width="22" height="22"></a>
+                                            </span>
+                                            <span class="docname-texteclipse ml-3" pTooltip="{{img.fileName}}" tooltipPosition="bottom">
+                                                {{img.fileName}}
+                                            </span>
+                                        </div>
+                            
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-12 p-3 bottom-padding"></div>
+                            <div class="col-xl-3 col-lg-4 col-md-3 col-sm-4 ht-3rem">
+                                <h6 class="label-view">Status</h6>
+                                <p class="status-style statusactive">Approved</p>
+                            </div>
+                            <div class="col-12 p-3 bottom-padding"></div>
+                            <div class="col-xl-3 col-lg-4 col-md-3 col-sm-4 ht-3rem">
+                                <h6 class="label-view">Remarks</h6>
+                                <p class="label-input-text">Successfully Completed</p>
+                            </div> -->
+                            <div class="col-xl-3 col-lg-4 col-md-3 col-sm-4 mt-4">
+                                <div class="d-flex justify-content-end">
+                                    <p-button (click)="backbutton()" label="BACK"></p-button>
+                                    <p-button *ngIf="isShowSubmit"
+                                        label="{{'TERMDEPOSITSTRANSACTION.SUBMIT' | translate}}"
+                                        (click)="submit()"></p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 m-2"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Individual details dialog -->
+    <p-dialog header="More Basic Details" [(visible)]="membreIndividualFlag" styleClass="moredetails-style">
+        <!-- <h6 class="super-sub-heading">{{'LOAN_TRANSACTION.MEMBERSHIP_CREATION' | translate}}</h6> -->
+        <div class="popup-basic-details">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="d-flex justify-content-start px-3 py-0 mb-2" *ngIf="photoCopyFlag">
+                        <div *ngFor="let img of membershipBasicDetailsModel.multipartFileListForPhotoCopy">
+
+                            <span class="{{img.imageValue}}" (click)="onClickMemberPhotoCopy()"
+                                *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png'">
+                                <!-- <a href="{{img.imageValue}}" (clicl)="onClickMemberPhotoCopy()"></a> -->
+                                <img src="{{img.imageValue}}" class="image-user">
+                            </span>
+                        </div>
+                        <p class="active-status"></p>
+                        <div
+                            *ngFor="let img of membershipBasicDetailsModel.multipartFileListForsignatureCopyPath">
+                            <span class="{{img.imageValue}}" (click)="onClickMemberPhotoCopy()"
+                                *ngIf="img.fileType=='jpg' || img.fileType=='jpeg' || img.fileType=='png'">
+                                <!-- <a href="{{img.imageValue}}" (clicl)="onClickMemberPhotoCopy()"></a> -->
+                                <img src="{{img.imageValue}}" class="image-user">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-start px-3 py-0 mb-2" *ngIf="!photoCopyFlag">
+                        <div>
+                            <img src="assets/images/no-image.jpg" (click)="onClickMemberPhotoCopy()" class="image-user">
+                        </div>
+                        <p class="active-status"></p>
+                        <div>
+                            <img src="assets/images/no-image.jpg" (click)="onClickMemberPhotoCopy()" class="image-sign">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.NAME' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.name }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.ADMISSION_NUMBER' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.tempAdmissionNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.MEMBER_TYPE' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.memberTypeName }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.ADMISSION_DATE' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.admissionDateVal }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.DATE_OF_BIRTH' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.dob }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.AGE' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.age }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.RELATION_WITH_APPLICANT' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.relationTypeName }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.RELATIVE_NAME' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.relativeName }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.MARITAL_STATUS' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.maritalStatusName }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.CONTACT' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.mobileNumber }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.EMAIL' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.emailId }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.AADHAR' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.aadharNumber }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.PAN' | translate}}</span>
+                        <p class="label-input-text">{{membershipBasicDetailsModel.panNumber }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.KYC' | translate}}</span>
+                        <p class="label-input-text">{{isKycApproved}}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- <p-button class="pull-right" label="{{'LOAN_TRANSACTION.CLOSE' | translate}}" (click)="close()"></p-button> -->
+        </div>
+    </p-dialog>
+
+    <!-- institution Promoter details dialog -->
+    <p-dialog header="More Basic Details" [(visible)]="institutionPromoterFlag" styleClass="moredetails-style">
+        <!-- <h6 class="super-sub-heading">{{'LOAN_TRANSACTION.BASIC_DETAILS' | translate}}</h6> -->
+        <div class="popup-basic-details">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.INSTITUTION_NAME' | translate}}</span>
+                        <p class="label-input-text">{{membershipInstitutionDetailsModel.name}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.ADMISSION_NUMBER' | translate}}</span>
+                        <p class="label-input-text">{{membershipInstitutionDetailsModel.tempAdmissionNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.MEMBER_TYPE' | translate}}</span>
+                        <p class="label-input-text">{{membershipInstitutionDetailsModel.memberTypeName}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.ADMISSION_DATE' | translate}}</span>
+                        <p class="label-input-text">{{membershipInstitutionDetailsModel.admissionDateVal}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.REGISTERED_DATE' | translate}}</span>
+                        <p class="label-input-text">{{membershipInstitutionDetailsModel.registrationDateVal}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="fw-light">{{'LOAN_TRANSACTION.CONTACT' | translate}}</span>
+                        <p class="label-input-text">{{membershipInstitutionDetailsModel.mobileNumber}}</p>
+                    </div>
+                </div>
+                <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.EMAIL' | translate}}</span>
+                        <p class="label-input-text">{{membershipInstitutionDetailsModel.emailId}}</p>
+                    </div>
+                </div> -->
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.PAN' | translate}}</span>
+                        <p class="label-input-text">{{membershipInstitutionDetailsModel.panNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.KYC' | translate}}</span>
+                        <p class="label-input-text">{{isKycApproved}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12"></div>
+        <h6 class="super-sub-heading">{{'LOAN_TRANSACTION.INSTITUTION_PROMOTER_DETAILS' | translate}}</h6>
+
+        <div class="globel-border-top-color"></div>
+        <p-table #dt [columns]="columns" [value]="institionPromotersList" dataKey="id" styleClass="p-datatable-striped"
+            [rows]="5" [paginator]="true" [showJumpToPageDropdown]="true" [showPageLinks]="false" [pageLinks]="1"
+            [responsive]="true" rowExpandMode="single">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let promoter of columns ">{{promoter.header | translate}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                    <td *ngFor="let promoter of columns ">{{rowData[promoter.field]}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <ng-template pTemplate="footer">
+            <!-- <p-button class="pull-right" label="{{'LOAN_TRANSACTION.CLOSE' | translate}}" (click)="close()"></p-button> -->
+        </ng-template>
+        <div class="col-12"></div>
+    </p-dialog>
+
+    <!-- group prmoter details dialog -->
+    <p-dialog header="More Basic Details" [(visible)]="groupPromotersPopUpFlag" styleClass="moredetails-style">
+        <!-- <h6 class="super-sub-heading">{{'LOAN_TRANSACTION.BASIC_DETAILS' | translate}}</h6> -->
+        <div class="popup-basic-details">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.GROUP_NAAME' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.name}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.ADMISSION_NUMBER' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.tempAdmissionNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.MEMBER_TYPE' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.memberTypeName}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.ADMISSION_DATE' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.name}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.REGISTERED_DATE' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.registrationDate}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.ADMISSION_DATE' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.admissionDateVal}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.CONTACT' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.mobileNumber}}</p>
+                    </div>
+                </div>
+                <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.EMAIL' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.emailId}}</p>
+                    </div>
+                </div> -->
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.TAN_NUMBER' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.tanNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.PAN' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.panNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.GST' | translate}}</span>
+                        <p class="label-input-text">{{membershipGroupDetailsModel.gstNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 min-h-50px">
+                    <div class="form-group">
+                        <span class="label-view">{{'LOAN_TRANSACTION.KYC' | translate}}</span>
+                        <p class="label-input-text">{{isKycApproved}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12"></div>
+        <h6 class="super-sub-heading">{{'LOAN_TRANSACTION.GROUP_PROMOTER_DETAILS' | translate}}</h6>
+        <div class="globel-border-top-color"></div>
+        <p-table #dt [columns]="groupPrmoters" [value]="groupPrmotersList" editMode="row"
+            styleClass="p-datatable-striped" [rows]="5" [paginator]="true" [showJumpToPageDropdown]="true"
+            [showPageLinks]="false" [pageLinks]="1" [responsive]="true" rowExpandMode="single"
+            [globalFilterFields]="['surname', 'name', 'operatorTypeName', 'dob', 'age', 'genderName', 'maritalStatusName', 'mobileNumber', 'aadharNumber', 'emailId', 'startDate']">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th *ngFor="let promoter of groupPrmoters ">{{promoter.header | translate}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row let-editing="editing" let-ri="rowIndex">
+                <tr>
+                    <td *ngFor="let promoter of groupPrmoters ">{{row[promoter.field]}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <ng-template pTemplate="footer">
+            <!-- <p-button class="pull-right" label="{{'LOAN_TRANSACTION.CLOSE' | translate}}" (click)="close()"></p-button> -->
+        </ng-template>
+
+        <div class="col-12"></div>
+    </p-dialog>
