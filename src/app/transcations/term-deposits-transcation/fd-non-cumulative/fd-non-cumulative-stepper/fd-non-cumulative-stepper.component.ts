@@ -111,6 +111,7 @@ export class FdNonCumulativeStepperComponent implements OnInit {
   jointHolderList: any[] = [];
   memberTypeList: any[] = [];
   jointHolderDetailsList: any[]=[];
+  buttonDisbled: boolean =true;
   constructor(private router: Router,
     private fdNonCumulativeApplicationService: FdNonCumulativeApplicationService,
     private commonComponent: CommonComponent,

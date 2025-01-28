@@ -72,6 +72,7 @@ export class FdNonCumulativeComponent implements OnInit {
       { field: 'admissionNumber', header: 'Admision Number' },
       { field: 'accountNumber', header: 'Account Number' },
       { field: 'accountTypeName', header: 'Account Type' },
+      { field: 'memberTypeName', header: 'Member Type' },
       { field: 'fdNonCummulativeProductName', header: 'Product Name' },
       { field: 'depositAmount', header: 'Deposit Amount' },
       { field: 'depositDate', header: 'Deposit Date' },

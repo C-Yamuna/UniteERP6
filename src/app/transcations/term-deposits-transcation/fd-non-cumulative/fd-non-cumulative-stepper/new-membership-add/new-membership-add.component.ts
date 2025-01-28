@@ -98,8 +98,7 @@ export class NewMembershipAddComponent {
   isExistingMember:Boolean =false;
   admissionNumbersList:any[]=[];
   promterTypeDisabled : any;
-
-
+  buttonsFlag: boolean = true;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
@@ -317,18 +316,31 @@ export class NewMembershipAddComponent {
         this. fdNonCumulativeApplicationModel.memInstitutionDTO = this.membershipInstitutionDetailsModel;
         this.addButton = !this.institutionForm.valid;
     }
-     
-      this.fdNonCumulativeApplicationService.changeData({
-        formValid: this.memberCreationForm.valid ? true : false || (this.institutionForm.valid) ? true : false || (this.groupForm.valid) ? true : false,
-        data: this. fdNonCumulativeApplicationModel,
-        isDisable: this.isDisableFlag,
-        stepperIndex: 0,
-      });
+    this.updateDatas();
+
+      // this.fdNonCumulativeApplicationService.changeData({
+      //   formValid: this.memberCreationForm.valid ? true : false || (this.institutionForm.valid) ? true : false || (this.groupForm.valid) ? true : false,
+      //   data: this. fdNonCumulativeApplicationModel,
+      //   isDisable: this.isDisableFlag,
+      //   stepperIndex: 0,
+      // });
+
     }
     /**
      * @implements update save
     
      */
+
+    updateDatas(){
+      this.fdNonCumulativeApplicationService.changeData({
+            formValid: this.memberCreationForm.valid ? true : false || (this.institutionForm.valid) ? true : false || (this.groupForm.valid) ? true : false,
+            data: this. fdNonCumulativeApplicationModel,
+            isDisable: this.isDisableFlag,
+            stepperIndex: 0,
+          });
+    
+          }
+
     save() {
       this.updateData();
     }
@@ -698,6 +710,8 @@ export class NewMembershipAddComponent {
       this.groupPromoters = false;
       this.EditDeleteDisable = false;
       this.promoterDetails;
+      this.isDisableFlag = false;
+      this.updateDatas();
     }
     
     /**
@@ -720,7 +734,8 @@ export class NewMembershipAddComponent {
       }
       this.promoterDetailsModel.multipartFileListForPhotoCopyPath = this.fileUploadService.getFile(this.promoterDetailsModel.uploadImage ,ERP_TRANSACTION_CONSTANTS.TERMDEPOSITS + ERP_TRANSACTION_CONSTANTS.FILES + "/" + this.promoterDetailsModel.uploadImage  );
       this.promoterDetailsModel.multipartFileListForSignatureCopyPath = this.fileUploadService.getFile(this.promoterDetailsModel.uploadSignature ,ERP_TRANSACTION_CONSTANTS.TERMDEPOSITS + ERP_TRANSACTION_CONSTANTS.FILES + "/" + this.promoterDetailsModel.uploadSignature  );
-      
+      this.isDisableFlag = true;
+      this.updateDatas();
     }
   
     /**
@@ -728,6 +743,9 @@ export class NewMembershipAddComponent {
     
      */
     onRowAddSave() {
+      this.addButton = true;
+      this.EditDeleteDisable = true;
+      this.buttonsFlag  = false;
       this.groupPromoters = true;
       this.cancleButtonFlag = false;
       this.promoterDetailsModel = new GroupPromoterDetailsModel();
@@ -735,6 +753,8 @@ export class NewMembershipAddComponent {
       this.promoterDetailsForm.reset();
       this.onChangeExistedPrmoter(false);
       this.admissionNumberDropDown = false;
+      this.isDisableFlag = true;
+      this.updateDatas();
     }
     /**
      * @implements get all operator Details

@@ -10,6 +10,7 @@ import { FdNonCummulativeAccountsService } from '../shared/fd-non-cummulative-ac
 import { applicationConstants } from 'src/app/shared/applicationConstants';
 import { RdAccountsService } from '../shared/rd-accounts.service';
 import { termdeposittransactionconstant } from '../term-deposit-transaction-constant';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-recurring-deposit',
@@ -40,7 +41,7 @@ export class RecurringDepositComponent {
   constructor(private router: Router, private translate: TranslateService,
     private commonComponent: CommonComponent, private encryptDecryptService:
       EncryptDecryptService, private commonFunctionsService: CommonFunctionsService,
-    private rdAccountsService: RdAccountsService) { }
+    private rdAccountsService: RdAccountsService,private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.pacsId = 5;
@@ -66,6 +67,8 @@ export class RecurringDepositComponent {
       { field: 'accountNumber', header: 'TERMDEPOSITSTRANSACTION.ACCOUNT_NUMBER' },
       { field: 'accountTypeName', header: 'TERMDEPOSITSTRANSACTION.ACCOUNT_TYPE' },
       { field: 'memberTypeName', header: 'TERMDEPOSITSTRANSACTION.MEMBER_TYPE' },
+      { field: 'depositAmount', header: 'TERMDEPOSITSTRANSACTION.DEPOSIT_AMOUNT' },
+      { field: 'depositDate', header: 'TERMDEPOSITSTRANSACTION.DEPOSIT_DATE' },
       { field: 'productName', header: 'TERMDEPOSITSTRANSACTION.PRODUCT_NAME' },
       { field: 'roi', header: 'TERMDEPOSITSTRANSACTION.ROI' },
       { field: 'statusName', header: 'TERMDEPOSITSTRANSACTION.STATUS' },
@@ -110,6 +113,12 @@ export class RecurringDepositComponent {
 
       if (this.responseModel.status == applicationConstants.STATUS_SUCCESS) {
         this.gridListData = this.responseModel.data;
+        this.gridListData = this.gridListData.map(fd => {
+          if (fd.depositDate != null && fd.depositDate != undefined) {
+            fd.depositDate = this.datePipe.transform(fd.depositDate,this.orgnizationSetting.datePipe);
+          }
+          return fd;
+        });
         // this.gridListData = this.gridListData.map(membership => {
         //   return membership
         // });
